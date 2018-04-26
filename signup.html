@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/img/login.svg">
+    <title>Registrarse</title>
+    <!-- Bootstrap core CSS -->
+    <link href="assets/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="assets/signup.css" rel="stylesheet">
+    <script type="text/JavaScript" src="assets/js/forms.js"></script>
+  </head>
+
+  <body class="text-center">
+    <form method="post" class="form-signin" action="includes/process_signup.php">
+      <img class="mb-4" src="assets/img/login.svg" alt="" width="75" height="75">
+      <h1 id="reg" class="h3 mb-3 font-weight-normal">Registrarse</h1>
+      <p>Introduzca su dirección de correo</p>
+      <label for="inputEmail" class="sr-only">e-mail</label>
+      <input type="email" id="inputEmail" name="email" class="form-control" placeholder="E-mail" required autofocus>
+      <p>Introduzca un nombre de usuario válido</p>
+      <label for="inputUsername" class="sr-only">Usuario</label>
+      <input type="user" id="inputUsername" name="username" class="form-control" placeholder="Usuario" required autofocus>
+      <p>Introduzca su contraseña<br>(mín. 6 caracteres, al menos una mayúscula, una minúscula y un número)</p>
+      <label for="inputPassword" class="sr-only">Contraseña</label>
+      <input type="password" id="inputPassword" name="passwd" class="form-control" placeholder="Contraseña" required>
+      <p>Confirme su contraseña</p>
+      <label for="inputConfirmPassword" class="sr-only">Repetir contraseña</label>
+      <input type="password" id="inputConfirmPassword" name="confpaswd" class="form-control" placeholder="Contraseña" required>
+      <button class="btn btn-lg btn-primary btn-block" onclick="return checkSignup(this.form, this.form.inputUsername, this.form.inputEmail, this.form.inputPassword, this.form.inputConfirmPassword);">Registrarse</button>
+      <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+    </form>
+  </body>
+</html>
