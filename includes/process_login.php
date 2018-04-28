@@ -11,7 +11,7 @@ if(isset($_POST['inputEmail'], $_POST['inputPassword'])) {
 		// Sacado de 'https://secure.php.net/manual/en/function.header.php':
 		/* Redirect to a different page in the current directory that was requested */
 		$host = $_SERVER['HTTP_HOST'];
-		header("Location: https://$host/cal/mycal.html"); // IMPORTANTE: se ha usado /cal/ como parte de la url
+		header("Location: /cal/mycal.html"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 	} else {
 		// Login incorrecto
 		echo 'login inválido';
