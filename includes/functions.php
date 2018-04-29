@@ -33,7 +33,6 @@ function validate_signup($username, $email, $password, $pdo) {
 }
 
 function create_user($username, $email, $hashed_password, $pdo) {
-	print($hashed_password);
 	// Crear una semilla aleatoria
 	// uso sha1 simplemente para que el hash no quede tan largo en la tabla
 	$random_salt = hash('sha1', uniqid(openssl_random_pseudo_bytes(16), TRUE));
@@ -45,6 +44,28 @@ function create_user($username, $email, $hashed_password, $pdo) {
 	    $insert_stmt->bindParam(':e', $email);
 	    $insert_stmt->bindParam(':p', $hashed2_password);
 	    $insert_stmt->bindParam(':s', $random_salt);
+	    // Ejecutar la query preparada
+	    if (!$insert_stmt->execute()) {
+	    	echo 'error con la query INSERT INTO';
+	        exit();
+	    }
+	}
+}
+
+function create_class($course, $lesson, $price, $datetimeStart, $datetimeEnd, $pdo) {
+	/*TODO: antes de insertar, comprobar:
+		- que el valor del Precio sea válido
+		- que las fechas sean válidas
+		- que datetimeStart < datetimeEnd
+	*/
+	// Insertar la nueva clase en la base de datos
+
+	if ($insert_stmt = $pdo->prepare("INSERT INTO classes (course, lesson, price, datetime_start, datetime_end) VALUES (:c, :l, :p; :s, :e)")) {
+	    $insert_stmt->bindParam(':c', $course);
+	    $insert_stmt->bindParam(':l', $lesson);
+	    $insert_stmt->bindParam(':p', $price);
+	    $insert_stmt->bindParam(':s', date('YYYY-MM-DD HH:MM:SS',$datetimeStart)); //TODO: fix
+	    $insert_stmt->bindParam(':e', date('YYYY-MM-DD HH:MM:SS',$datetimeEnd)); //TODO: fix
 	    // Ejecutar la query preparada
 	    if (!$insert_stmt->execute()) {
 	    	echo 'error con la query INSERT INTO';

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--link rel="icon" href=""-->
+    <title>crear clase (formulario borrador)</title>
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="assets/css/class.css" rel="stylesheet">
+    </head>
+
+  <body class="text-center">
+     <form method="POST" action="includes/process_class.php" class="form-signin" >
+      <input type="text" id="inputCourse" name="course" class="form-control" placeholder="Curso" required autofocus>
+      <input type="text" id="inputLesson" name="lesson" class="form-control" placeholder="Lección" required autofocus>
+      <input type="text" id="inputPrice" name="price" class="form-control" placeholder="Precio" required autofocus>
+      <input type="text" id="inputDatetimeStart" name="datetimeStart" class="form-control" placeholder="Fecha y hora de inicio" required autofocus>
+      <input type="text" id="inputDatetimeEnd" name="datetimeEnd" class="form-control" placeholder="Fecha y hora de fin" required autofocus>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Enviar clase</button>
+    </form>
+  </body>
+</html>

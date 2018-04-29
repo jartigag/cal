@@ -1,0 +1,17 @@
+body {
+  padding: 0;
+  font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+  font-size: 14px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar {
+	height: 30px;
+}
+
+#calendar {
+  /*max-width: 900px;
+  max-height: 300px;*/
+  margin: 0 auto;
+}

@@ -2,19 +2,19 @@
 include 'db_connect.php';
 include 'functions.php';
 
+session_start();
+
 if(isset($_POST['inputEmail'], $_POST['inputPassword'])) { 
 	$email = $_POST['inputEmail'];
 	$password = $_POST['inputPassword'];
-	if(login($email, $password, $pdo) == true) {
+	if(login($email,$password,$pdo) == true) {
 		// Login correcto
 		echo 'logeado correctamente';
-		// Sacado de 'https://secure.php.net/manual/en/function.header.php':
-		/* Redirect to a different page in the current directory that was requested */
-		$host = $_SERVER['HTTP_HOST'];
-		header("Location: /cal/mycal.html"); // IMPORTANTE: se ha usado /cal/ como parte de la url
+		header("Location: /cal/mycal.php"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 	} else {
 		// Login incorrecto
 		echo 'login inválido';
+		//TODO: página de error
 	}
 } else { 
 	// No se han enviado las variables POST correctas
