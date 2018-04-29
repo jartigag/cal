@@ -74,7 +74,7 @@ function create_class($course, $lesson, $price, $datetimeStart, $datetimeEnd, $p
 	}
 }
 
-function login($username, $password, $pdo) {
+function login($username, $hashed_password, $pdo) {
 	// "Using prepared Statements means that SQL injection is not possible."
 	// https://www.w3schools.com/php/php_mysql_prepared_statements.asp
 	if ($stmt = $pdo->prepare("SELECT id, password,random_salt FROM users WHERE username = :u LIMIT 1")) {
@@ -83,16 +83,18 @@ function login($username, $password, $pdo) {
 		
 		$user_row = $stmt->fetch(PDO::FETCH_NUM); // PDO::FETCH_NUM porque "list() only works on numerical arrays and assumes the numerical indices start at 0."
 		list($user_id, $db_password, $db_random_salt) = $user_row; // para asignar todas las variables necesarias de golpe desde $user_row
+		print('<pre>'); //DEBUGGING
 		print_r($user_row); //DEBUGGING
-		print('----');  //DEBUGGING
+		print('\n----\n</pre>');  //DEBUGGING
 		
 		$num_rows = $stmt->fetchColumn();
 		$num_rows = 1; //DEBUGGING
 		if($num_rows == 1) { // Si el usuario existe:
-			$hashed_password = hash('sha1',hash('sha1', $password).$db_random_salt); // Durante el registro, la contraseña se hasheó 2 veces con sha1 (una en js, otra en php con $db_random_salt) y se almacenó el resultado
-			print('hashed_password: '.$hashed_password); //DEBUGGING
-			print('db_password: '.$db_password); //DEBUGGING
-			if($db_password == $hashed_password) { // Comprobar si coinciden la contraseña dada con la de la base de datos
+			// Crear contraseña hasheada con la semilla
+			$hashed2_password = hash('sha1',$hashed_password.$db_random_salt); // Durante el registro, la contraseña se hasheó 2 veces con sha1 (una en js, otra en php con $db_random_salt) y se almacenó el resultado
+			print('<pre>hashed_password: '.$hashed_password.'\n</pre>'); //DEBUGGING
+			print('<pre>hashed2_password: '.$hashed2_password.'</pre>'); //DEBUGGING
+			if($db_password == $hashed2_password) { // Comprobar si coinciden la contraseña dada con la de la base de datos
 				// Contraseña correcta:
 				//$ip_address = $_SERVER['REMOTE_ADDR']; // IP del usuario 
 				//$user_browser = $_SERVER['HTTP_USER_AGENT']; // User-Agent del usuaraio
@@ -153,7 +155,7 @@ function checkbrute($user_id, $pdo) {
 				//TODO: REVISAR
 				$stmt->bind_result($password); // Recuperar variables del resultado
 				$stmt->fetch();
-				$login_check = hash('sha512', $password); // para comprobar luego si está logeado (originalmente era $password.$ip_address.$user_browser)
+				$login_check = hash('sha1', $password); // para comprobar luego si está logeado (originalmente era $password.$ip_address.$user_browser)
 				if($login_check == $login_string) {
 					// Logeado
 					return true;

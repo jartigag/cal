@@ -4,12 +4,11 @@ include 'functions.php';
 
 session_start();
 
-if(isset($_POST['inputEmail'], $_POST['inputPassword'])) { 
-	$email = $_POST['inputEmail'];
-	$password = $_POST['inputPassword'];
-	if(login($email,$password,$pdo) == true) {
+if(isset($_POST['user'], $_POST['hashed_password'])) { 
+	$user = $_POST['user'];
+	$hashed_password = $_POST['hashed_password'];
+	if(login($user,$hashed_password,$pdo) == true) {
 		// Login correcto
-		echo 'logeado correctamente';
 		header("Location: /cal/mycal.php"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 	} else {
 		// Login incorrecto

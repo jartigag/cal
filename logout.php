@@ -2,5 +2,5 @@
 session_start();
 session_unset();
 session_destroy();
-echo 'sesión cerrada';
+header("Location: /cal/"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 ?>

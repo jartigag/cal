@@ -1,7 +1,9 @@
 <?php
 include 'db_connect.php';
 include 'functions.php';
-$error_msg = "";
+
+session_start();
+
 if (isset($_POST['username'], $_POST['email'], $_POST['hashed_password'])) {
     // Sanear y validar los datos recibidos
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
@@ -10,10 +12,12 @@ if (isset($_POST['username'], $_POST['email'], $_POST['hashed_password'])) {
 
     if (validate_signup($username,$email,$hashed_password,$pdo) == true) {
         create_user($username,$email,$hashed_password,$pdo);
-        echo 'registrado!'; //TODO: redirigir a mycal.html
-        exit();
+        if(login($username,$hashed_password,$pdo) == true) {
+            header("Location: /cal/mycal.php"); // IMPORTANTE: se ha usado /cal/ como parte de la url
+        }
     } else { 
 		// No se han enviado las variables POST correctas
 		echo 'petición inválida';
 	}
+}
 ?>

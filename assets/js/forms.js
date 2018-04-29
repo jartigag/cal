@@ -22,22 +22,27 @@ function checkSignup(form, username, email, password, conf) {
         return false;
     }
 
-    // Crear nuevo input para enviar la contraseña hasheada con sha1 
-    var p = document.createElement("input");
+    conf.value = ""; // Borrar la confirmación de contraseña en texto plano, para asegurarse de que no se envía.
 
-    // Añadir el nuevo input al formulario 
-    form.appendChild(p);
-    p.name = "hashed_password";
-    p.type = "hidden";
-    p.value = sha1(password.value); // Se envía password hasheada con sha1,
-                                    // para que no viaje como texto plano.
+    sendPasswordSecurely(form, password);
+}
 
-    password.value = ""; // Borrar la contraseña (y su confirmación) en texto plano,
-    conf.value = "";     // para asegurarse de que no se envían.
+function sendPasswordSecurely(form, password) {
+  // Crear nuevo input para enviar la contraseña hasheada con sha1 
+  var p = document.createElement("input");
 
-    // Enviar el formulario
-    form.submit();
-    return true;
+  // Añadir el nuevo input al formulario 
+  form.appendChild(p);
+  p.name = "hashed_password";
+  p.type = "hidden";
+  p.value = sha1(password.value); // Se envía password hasheada con sha1,
+                                  // para que no viaje como texto plano.
+
+  password.value = ""; // Borrar la contraseña en texto plano, para asegurarse de que no se envía.
+
+  // Enviar el formulario
+  form.submit();
+  return true;
 }
 
 function sha1(str) { // Implementación de SHA1 en Javascript
