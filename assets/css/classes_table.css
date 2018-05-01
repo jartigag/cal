@@ -1,0 +1,29 @@
+/* PALETA DE COLORES:
+  **************** comment *** colour **
+
+  main color       mc          #aaff
+  secondary color  sc          #00ff00
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: /*mc*/#aaff;
+}
+
+.centered {
+  width: 35em;
+  height: 7em;
+  margin: auto;
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+input[type="number"] {
+   width:50px;
+}
