@@ -1,6 +1,9 @@
 <?php
 
-/*function sec_session_start() {
+// "Using prepared Statements means that SQL injection is not possible."
+// https://www.w3schools.com/php/php_mysql_prepared_statements.asp
+
+/*function sec_session_start() { //TODO: mejor que session_start()?
 	$session_name = 'sec_session_id'; // Set a custom session name
 	$secure = false; // Set to true if using https.
 	$httponly = true; // This stops javascript being able to access the session id. 
@@ -26,7 +29,6 @@ function validate_signup($username, $email, $password, $pdo) {
             return false;
         }
     } else {
-        echo 'error de la base de datos';
         return false;
     }
     return true;
@@ -47,7 +49,6 @@ function create_user($username, $email, $hashed_password, $pdo) {
 	    // Ejecutar la query preparada
 	    if (!$insert_stmt->execute()) {
 	    	echo 'error con la query INSERT INTO';
-	        exit();
 	    }
 	}
 }
@@ -59,41 +60,64 @@ function create_class($course, $lesson, $price, $datetimeStart, $datetimeEnd, $p
 		- que datetimeStart < datetimeEnd
 	*/
 	// Insertar la nueva clase en la base de datos
-
-	if ($insert_stmt = $pdo->prepare("INSERT INTO classes (course, lesson, price, datetime_start, datetime_end) VALUES (:c, :l, :p; :s, :e)")) {
+	if ($insert_stmt = $pdo->prepare("INSERT INTO classes (course, lesson, price, datetime_start,datetime_end) VALUES (:c, :l, :p, :s, :e)")) {
 	    $insert_stmt->bindParam(':c', $course);
 	    $insert_stmt->bindParam(':l', $lesson);
 	    $insert_stmt->bindParam(':p', $price);
-	    $insert_stmt->bindParam(':s', date('YYYY-MM-DD HH:MM:SS',$datetimeStart)); //TODO: fix
-	    $insert_stmt->bindParam(':e', date('YYYY-MM-DD HH:MM:SS',$datetimeEnd)); //TODO: fix
+	    $insert_stmt->bindParam(':s', date('Y-m-d H:i:s',strtotime($datetimeStart)));
+	    $insert_stmt->bindParam(':e', date('Y-m-d H:i:s',strtotime($datetimeEnd)));
 	    // Ejecutar la query preparada
-	    if (!$insert_stmt->execute()) {
-	    	echo 'error con la query INSERT INTO';
-	        exit();
+	    if ($insert_stmt->execute()) {
+	    	$dateTime = date('Y-m-d H:i:s');
+	    	$userId = $_SESSION['user_id'];
+	    	$teacher = true;
+	    	$classId = $pdo->lastInsertId();
+	    	if (create_event($dateTime,$classId,$userId,$teacher,$pdo)){
+	    		return true;
+	    	}
+	    } else {
+	    	echo 'error con la query INSERT INTO classes';
+	        return false;
+	    }
+	}
+}
+
+function create_event($dateTime,$classId,$userId,$teacher,$pdo) {
+	// Insertar el evento actual en la base de datos
+	if ($insert_stmt = $pdo->prepare("INSERT INTO events (date_time, class_id, user_id, teacher) VALUES (:d, :c, :u, :t)")) {
+	    $insert_stmt->bindParam(':d', $dateTime);
+	    $insert_stmt->bindParam(':c', $classId);
+	    $insert_stmt->bindParam(':u', $userId);
+	    $insert_stmt->bindParam(':t', $teacher);
+	    // Ejecutar la query preparada
+	    if ($insert_stmt->execute()) {
+	    	return true;
+	    } else {
+	    	echo 'error con la query INSERT INTO event';
+	        return false;
 	    }
 	}
 }
 
 function login($username, $hashed_password, $pdo) {
-	// "Using prepared Statements means that SQL injection is not possible."
-	// https://www.w3schools.com/php/php_mysql_prepared_statements.asp
 	if ($stmt = $pdo->prepare("SELECT id, password,random_salt FROM users WHERE username = :u LIMIT 1")) {
  		$stmt->bindParam(':u', $username);
-		$stmt->execute(); // Execute the prepared query.
+ 		// Ejecutar la query preparada
+		$stmt->execute();
 		
 		$user_row = $stmt->fetch(PDO::FETCH_NUM); // PDO::FETCH_NUM porque "list() only works on numerical arrays and assumes the numerical indices start at 0."
 		list($user_id, $db_password, $db_random_salt) = $user_row; // para asignar todas las variables necesarias de golpe desde $user_row
-		print('<pre>'); //DEBUGGING
-		print_r($user_row); //DEBUGGING
-		print('\n----\n</pre>');  //DEBUGGING
+		//print('<pre>'); //DEBUGGING
+		//print_r($user_row); //DEBUGGING
+		//print('\n----\n</pre>'); //DEBUGGING
 		
 		$num_rows = $stmt->fetchColumn();
 		$num_rows = 1; //DEBUGGING
 		if($num_rows == 1) { // Si el usuario existe:
 			// Crear contraseña hasheada con la semilla
 			$hashed2_password = hash('sha1',$hashed_password.$db_random_salt); // Durante el registro, la contraseña se hasheó 2 veces con sha1 (una en js, otra en php con $db_random_salt) y se almacenó el resultado
-			print('<pre>hashed_password: '.$hashed_password.'\n</pre>'); //DEBUGGING
-			print('<pre>hashed2_password: '.$hashed2_password.'</pre>'); //DEBUGGING
+			//print('<pre>hashed_password: '.$hashed_password.'\n</pre>'); //DEBUGGING
+			//print('<pre>hashed2_password: '.$hashed2_password.'</pre>'); //DEBUGGING
 			if($db_password == $hashed2_password) { // Comprobar si coinciden la contraseña dada con la de la base de datos
 				// Contraseña correcta:
 				//$ip_address = $_SERVER['REMOTE_ADDR']; // IP del usuario 
