@@ -2,50 +2,52 @@ function checkSignup(form, username, email, password, conf) {
     // Comprobar username y password con expresiones regulares:
     re = /^\w+$/; 
     if(!re.test(username.value)) { 
-        alert("El nombre de usuario Ãºnicamente puede contener letras, nÃºmeros y guiones bajos. Por favor, pruebe de nuevo."); 
+        alert("El nombre de usuario únicamente puede contener letras, números y guiones bajos. Por favor, pruebe de nuevo."); 
         form.inputUsername.focus();
         return false; 
     }
     if (password.value.length < 6) {
-        alert('La contraseÃ±a debe tener 6 caracteres mÃ­nimo. Por favor, pruebe de nuevo.');
+        alert('La contraseña debe tener 6 caracteres mínimo. Por favor, pruebe de nuevo.');
         form.inputPassword.focus();
         return false;
     }
     var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/; 
     if (!re.test(password.value)) {
-        alert('La contraseÃ±a debe tener al menos una mayÃºscula, una minÃºscula y un nÃºmero. Por favor, pruebe de nuevo.');
+        alert('La contraseña debe tener al menos una mayúscula, una minúscula y un número. Por favor, pruebe de nuevo.');
         return false;
     }
     if (password.value != conf.value) {
-        alert('Sus contraseÃ±as no coinciden. Por favor, pruebe de nuevo.');
+        alert('Sus contraseñas no coinciden. Por favor, pruebe de nuevo.');
         form.inputPassword.focus();
         return false;
     }
 
-    conf.value = ""; // Borrar la confirmaciÃ³n de contraseÃ±a en texto plano, para asegurarse de que no se envÃ­a.
+    //conf.value = ""; // Borrar la confirmación de contraseña en texto plano, para asegurarse de que no se envía.
+    // DEBUGGING: Línea anterior comentada porque daba problemas en Firefox (no en Chrome)
 
     sendPasswordSecurely(form, password);
 }
 
 function sendPasswordSecurely(form, password) {
-  // Crear nuevo input para enviar la contraseÃ±a hasheada con sha1 
+  // Crear nuevo input para enviar la contraseña hasheada con sha1 
   var p = document.createElement("input");
 
-  // AÃ±adir el nuevo input al formulario 
+  // Añadir el nuevo input al formulario 
   form.appendChild(p);
   p.name = "hashed_password";
   p.type = "hidden";
-  p.value = sha1(password.value); // Se envÃ­a password hasheada con sha1,
+  p.value = sha1(password.value); // Se envía password hasheada con sha1,
                                   // para que no viaje como texto plano.
 
-  password.value = ""; // Borrar la contraseÃ±a en texto plano, para asegurarse de que no se envÃ­a.
+  //password.value = ""; // Borrar la contraseña en texto plano, para asegurarse de que no se envía.
+  // DEBUGGING: Línea anterior comentada porque daba problemas en Firefox (no en Chrome)
 
   // Enviar el formulario
   form.submit();
   return true;
 }
 
-function sha1(str) { // ImplementaciÃ³n de SHA1 en Javascript
+function sha1(str) { // Implementación de SHA1 en Javascript
 
   //  discuss at: http://phpjs.org/functions/sha1/
   // original by: Webtoolkit.info (http://www.webtoolkit.info/)

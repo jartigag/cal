@@ -48,7 +48,7 @@ function create_user($username, $email, $hashed_password, $pdo) {
 	    $insert_stmt->bindParam(':s', $random_salt);
 	    // Ejecutar la query preparada
 	    if (!$insert_stmt->execute()) {
-	    	echo 'error con la query INSERT INTO';
+	    	print_r($pdo->errorInfo());
 	    }
 	}
 }
@@ -93,10 +93,13 @@ function create_event($dateTime,$classId,$userId,$teacher,$pdo) {
 	    if ($insert_stmt->execute()) {
 	    	return true;
 	    } else {
-	    	echo 'error con la query INSERT INTO event';
+	    	echo 'execute() ha devuelto falso';
+	    	print_r($pdo->errorInfo());
 	        return false;
 	    }
 	}
+	//$pdo->query("INSERT INTO events (date_time, class_id, user_id, teacher) VALUES ('2018-01-01 01:00:00', 1, 1, 1)");
+	//echo 'hecho';
 }
 
 function login($username, $hashed_password, $pdo) {
