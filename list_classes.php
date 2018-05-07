@@ -1,6 +1,7 @@
 <?php
 include 'includes/db_connect.php';
-//TODO: controlar si está logeado
+//TODO: controlar si es el profesor (entonces link en clases que llevan a list_students.php?class_id=X)
+//		o alumno (entonces mostrar botón 'Inscribirse')
 session_start();
 //function print_tabla() {
 	$navbar = file_get_contents("assets/navbar.html");
@@ -11,13 +12,14 @@ session_start();
                 <a class="nav-link" href="list_classes.php">Ver Clases</a>', $navbar);
 	$template_table = file_get_contents("assets/classes_table.html");	//$template_table es una tabla en hml
 	$row = file_get_contents("assets/classes_row.html");				//$row es una fila en html
+	$rows = ""; 														//en $rows se concatenará cada fila generada
 	$result = str_replace("##navbar##", $navbar, $template_table);
 	if (!isset($_SESSION['username'])) {
-		$result = str_replace("##username##", '¡No te has identificado! <a class="p-2 text-white" href="login.html">Identifícate</a><a class="p-2 text-white" href="signup.html">o Regístrate</a>', $result);
+		$result = str_replace("##username##", '¡No te has identificado!', $result);
+		$result = str_replace('<a class="dropdown-item" href="logout.php">Salir</a>', '<a class="dropdown-item" href="login.html">Indentificarse</a><a class="dropdown-item" href="signup.html">Registrarse</a>', $result);
 	} else {
-		$result = str_replace("##username##", '<a class="p-2 text-white" href="#">'.$_SESSION['username'].'</a><a class="p-2 text-white" href="logout.php">(Salir)</a>', $result);
+		$result = str_replace("##username##", $_SESSION['username'], $result);
 	}
-	$rows = ""; 														//en $rows se concatenará cada fila generada
 
 	$stmt=$pdo->query("SELECT * FROM classes");
 	if ($stmt===false) {
@@ -31,7 +33,6 @@ session_start();
 		$result_row = str_replace("#price#", $class['price'], $result_row);
 		$result_row = str_replace("#datetime_start#", $class['datetime_start'], $result_row);
 		$result_row = str_replace("#datetime_end#", $class['datetime_end'], $result_row);
-		//TODO: profesor
 
 		$rows = $rows.$result_row;
 

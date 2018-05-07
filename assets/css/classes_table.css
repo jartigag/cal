@@ -27,3 +27,8 @@ body {
 input[type="number"] {
    width:50px;
 }
+
+.ml-auto .dropdown-menu {
+  left: auto !important;
+  right: 0px;
+}

@@ -17,22 +17,28 @@
   <body class="text-left">
     <form method="post" class="form-signin" action="includes/process_signup.php">
       <p><span class="h3 mb-3 font-weight-normal" class="text-center">Registrarse</span></p>
+
       <p>Introduzca su dirección de correo</p>
       <label for="inputEmail" class="sr-only">e-mail</label>
       <input type="email" id="inputEmail" name="email" class="form-control" placeholder="E-mail" required autofocus>
+
       <p>Introduzca un nombre de usuario válido</p>
       <label for="inputUsername" class="sr-only">Usuario</label>
       <input type="user" id="inputUsername" name="username" class="form-control" placeholder="Usuario" required autofocus>
-      <label for="inputCoin" class="sr-only">Monedero tlmCoin</label>
+
       <p>Introduzca su monedero tlmCoin<br>(con secreto)<br><small>Necesario para los pagos de sus clases</small></p>
-      <input type="text" id="inputCoin" name="coin" class="form-control" placeholder="Monedero tlmCoin" required autofocus>
+      <label for="inputCoin" class="sr-only">Monedero tlmCoin</label>
+      <input type="text" id="inputCoin" name="tlmcoin" class="form-control" placeholder="Monedero tlmCoin" required autofocus>
+
       <p>Introduzca su contraseña<br><small>(mín. 6 caracteres, al menos una mayúscula, una minúscula y un número)</small></p>
       <label for="inputPassword" class="sr-only">Contraseña</label>
       <input type="password" id="inputPassword" name="passwd" class="form-control" placeholder="Contraseña" required>
+
       <p>Confirme su contraseña</p>
       <label for="inputConfirmPassword" class="sr-only">Repetir contraseña</label>
       <input type="password" id="inputConfirmPassword" name="confpaswd" class="form-control" placeholder="Contraseña" required>
-      <button class="btn btn-lg btn-primary btn-block" onclick="return checkSignup(this.form, this.form.inputUsername, this.form.inputEmail, this.form.inputPassword, this.form.inputConfirmPassword);">Registrarse</button>
+
+      <button class="btn btn-lg btn-primary btn-block" onclick="return checkSignup(this.form, this.form.inputUsername, this.form.inputEmail, this.form.inputCoin, this.form.inputPassword, this.form.inputConfirmPassword);">Registrarse</button>
       <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
     </form>
   </body>

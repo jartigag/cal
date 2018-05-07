@@ -9,10 +9,11 @@ if (isset($_SESSION['username'])) {
         '<li class="nav-item active">
                 <a class="nav-link" href="mycal.php">Tu Calendario</a>', $navbar);
 	$result = str_replace("##navbar##", $navbar, $template);
-	if ($_SESSION['username']=="") {
-		$result = str_replace("##username##", '¡No te has identificado! <a class="p-2 text-white" href="login.html">Identifícate</a><a class="p-2 text-white" href="signup.html">o Regístrate</a>', $result);
+	if (!isset($_SESSION['username'])) {
+		$result = str_replace("##username##", '¡No te has identificado!', $result);
+		$result = str_replace('<a class="dropdown-item" href="logout.php">Salir</a>', '<a class="dropdown-item" href="login.html">Indentificarse</a><a class="dropdown-item" href="signup.html">Registrarse</a>', $result);
 	} else {
-		$result = str_replace("##username##", '<a class="p-2 text-white" href="#">'.$_SESSION['username'].'</a><a class="p-2 text-white" href="logout.php">(Salir)</a>', $result);
+		$result = str_replace("##username##", $_SESSION['username'], $result);
 	}
 	print($result);
 } else {
