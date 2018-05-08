@@ -20,3 +20,8 @@ create table events (id int not null primary key auto_increment,
  class_id int not null,
  user_id int not null,
  teacher tinyint(1));
+
+create table diplomas (id int not null primary key auto_increment,
+ diploma_oid int(11),
+ diploma_secret varchar(16),
+ entregado tinyint(1) not null default 0);

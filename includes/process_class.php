@@ -11,15 +11,15 @@ if(isset($_POST['course'], $_POST['lesson'], $_POST['price'], $_POST['datetimeSt
 	$course = $_POST['course'];
 	$lesson = $_POST['lesson'];
 	$price = $_POST['price'];
-	$gen_price = 10; //TODO: Consultar Precio de la API de vobj para crear un objeto generador (en este caso, el diploma de la clase)
+	$genPrice = 10; //TODO: Consultar Precio de la API de vobj para crear un objeto generador (en este caso, el diploma de la clase)
 	$datetimeStart = $_POST['datetimeStart'];
 	$datetimeEnd = $_POST['datetimeEnd'];
-	//if (validate_coin($userId,$gen_price)) {
+	if (validate_coin($userId,$genPrice,$pdo)) {
 		if (create_class($course,$lesson,$price,$datetimeStart,$datetimeEnd,$pdo)){
 			echo 'clase creada!';
 			exit();
 		}	
-	//}
+	}
 } else { 
 	// No se han enviado las variables POST correctas
 	echo 'petición inválida';

@@ -86,20 +86,44 @@ function create_user($username, $email, $hashed_password, $tlmcoin, $pdo) {
 	}
 }
 
-function validate_coin($userId,$price) {
-	//TODO: comprobar que https://coin.tlm.unavarra.es/api/status.php?coinid=X > $price
+function validate_coin($userId,$price,$pdo) {
+	$parsed_coin = parse_coin($userId,$pdo);
+	$coinid = $parsed_coin[0];
+
+	$r = file_get_contents('https://coin.tlm.unavarra.es/api/status.php?coinid='.$coinid);
+	$value = json_decode($r,true)['value'];
+
+	if ($value>=$price) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function transfer_coin($srcid,$dstid,$auth,$value) {
 	//TODO: https://coin.tlm.unavarra.es/api/transfer.php?srcid=17&dstid=43&auth=ahjsbdy1d189db&value=10
+	$r=file_get_contents('https://coin.tlm.unavarra.es/api/transfer.php?srcid='.$srcid.'&dstid='.$dstid.'&auth='.$auth.'&value='.$value);
+	$response=json_decode($r,true)['ok'];
+
+	return $response;
 }
 
-function get_coin($userId) {
+function parse_coin($userId,$pdo) {
 	//TODO: consultar y devolve tlmcoin (sin secret) del usuario en la tabla users
-}
+	if ($stmt = $pdo->prepare('SELECT tlmcoin FROM users WHERE id= :i')) {
+ 		$stmt->bindParam(':i', $userId);
+ 		// Ejecutar la query preparada
+ 		if ($stmt->execute()) {
+ 			list($coin) = $stmt->fetch(PDO::FETCH_NUM);
 
-function get_coin_secret($userId) {
-	//TODO: consultar y devolve tlmcoin secret del usuario en la tabla users
+ 			$parsed_coin = explode("-", $coin); // variable $coin parseada (separada por '-' y guardada en array)
+
+ 			return $parsed_coin;
+ 		} else {
+ 			die('error al obtener el monedero tlmCoin del usuario');
+ 		}
+	}
+
 }
 
 function create_class($course, $lesson, $price, $datetimeStart, $datetimeEnd, $pdo) {
@@ -107,66 +131,111 @@ function create_class($course, $lesson, $price, $datetimeStart, $datetimeEnd, $p
 		- que las fechas sean válidas
 		- que datetimeStart < datetimeEnd
 	*/
-    /*TODO: Crear DIPLOMA GENERADOR:
-    https://webalumnos.tlm.unavarra.es:10169/vobj/crea.php?
+    //TODO: Crear DIPLOMA GENERADOR:
+    /*https://webalumnos.tlm.unavarra.es:10169/vobj/crea.php?
     nombre=diploma&
     desc= $classId &
     icon=&
     propietario= $userId &
     generador=1&
-    coin= get_coin($userId) 
+    coin= parse_coin($userId)[0]*/
 
-	>>response: {"oid":"99","secret":"0f6d4550768afbd2"}
-    */
     //INSERT INTO classes (diploma_oid, diploma_secret) values (oid,secret)
 	// Insertar la nueva clase en la base de datos
 	$userId = $_SESSION['user_id'];
-	if ($insert_stmt = $pdo->prepare("INSERT INTO classes (course,lesson,price,datetime_start,datetime_end) VALUES (:c, :l, :p, :s, :e)")) {
-	    $insert_stmt->bindParam(':c', $course);
-	    $insert_stmt->bindParam(':l', $lesson);
-	    $insert_stmt->bindParam(':p', $price);
-	    $insert_stmt->bindParam(':s', date('Y-m-d H:i:s',strtotime($datetimeStart)));
-	    $insert_stmt->bindParam(':e', date('Y-m-d H:i:s',strtotime($datetimeEnd)));
-	    $classId = $pdo->lastInsertId()-1; //TODO: vale esto?
+	if ($insertC_stmt = $pdo->prepare("INSERT INTO classes (course,lesson,price,datetime_start,datetime_end) VALUES (:c, :l, :p, :s, :e)")) {
+	    $insertC_stmt->bindParam(':c', $course);
+	    $insertC_stmt->bindParam(':l', $lesson);
+	    $insertC_stmt->bindParam(':p', $price);
+	    $insertC_stmt->bindParam(':s', date('Y-m-d H:i:s',strtotime($datetimeStart)));
+	    $insertC_stmt->bindParam(':e', date('Y-m-d H:i:s',strtotime($datetimeEnd)));
 	    // Ejecutar la query preparada
-	    if ($insert_stmt->execute()) {
+	    if ($insertC_stmt->execute()) {
 	    	$dateTime = date('Y-m-d H:i:s');
 	    	$teacher = true;
 	    	$classId = $pdo->lastInsertId();
-	    	if (create_event($dateTime,$classId,$userId,$teacher,$pdo)){
-	    		return true;
-	    	}
+
+		    // Crear DIPLOMA GENERADOR:
+		    $teachCoin = parse_coin($userId,$pdo);
+		    $teacherCoin = $teachCoin[0];
+		    $teacherCoinSecret = $teachCoin[1];
+		    $r=file_get_contents('https://webalumnos.tlm.unavarra.es:10169/vobj/crea.php?nombre=diploma&desc='.$classId.'&icon=&propietario='.$userId.'&generador=1&coin='.$teacherCoin.'-'.$teacherCoinSecret); //TODO: mejorable
+		    $genDiplomaOid=json_decode($r,true)['oid'];
+		    $genDiplomaSecret=json_decode($r,true)['secret'];
+
+		    if ($insertD_stmt = $pdo->prepare("UPDATE classes SET diploma_oid=:o, diploma_secret=:s WHERE id=:i")) {
+				$insertD_stmt->bindParam(':o', $genDiplomaOid);
+			    $insertD_stmt->bindParam(':s', $genDiplomaSecret);
+			    $insertD_stmt->bindParam(':i', $classId);
+		        // Ejecutar la query preparada
+		        if ($insertD_stmt->execute()) {
+		        	if (create_event($dateTime,$classId,$userId,$teacher,$pdo)) {
+		        		return true;
+		        	}
+		        } else {
+		        	echo 'error con diploma UPDATE classes';
+		        	print_r($pdo->errorInfo());
+		        	return false;
+		        }
+		    }
 	    } else {
-	    	echo 'error con la query INSERT INTO classes';
+	    	echo 'error con clase INSERT INTO classes';
 	        return false;
 	    }
 	}
 }
 
 function join_class($dateTime,$classId,$userId,$price,$pdo) {
-	/*TODO: 
-	1. Pagar de Alumno a Profesor:
-	$studentCoin = get_coin($userId);
-	$studentCoinSecret = get_coin_secret($userId);
-	TODO: obtener $teacherId con 'SELECT user_id FROM events WHERE class_id = '.$classId.' AND teacher=1'
-	$teacherCoin = get_coin($teacherId);
-	if (validate_coin($userId,$price)) {
-		if (transfer_coin($studentCoin,$teacherCoin,$studentCoinSecret,$price)) {
-			//TODO: 2. Crear NUEVO DIPLOMA:
-					'SELECT diploma_oid, diploma_secret FROM classes WHERE id='.$classId
-
-				    https://webalumnos.tlm.unavarra.es:10169/vobj/nuevo.php?
-				    oid= $genDiplomaOid &
-				    secret= $genDiplomaSecret
-
-					>>response: {"oid":"99","secret":"0f6d4550768afbd2"}
-			// TODO: DECIDIR dónde se guardan oid y secret del nuevo diploma. NUEVA TABLA 'diplomas'?
-			$teacher = 0;
-			if (create_event($dateTime,$classId,$userId,$teacher,$pdo)){
-				return true;
-			}
+	//TODO: 
+	// 1. Pagar de Alumno a Profesor:
+	$stuCoin = parse_coin($userId,$pdo);
+	$studentCoin = $stuCoin[0];
+	$studentCoinSecret = $stuCoin[1];
+	if ($stmt = $pdo->prepare('SELECT user_id FROM events WHERE class_id = :c AND teacher=1')) {
+ 		$stmt->bindParam(':c', $classId);
+ 		// Ejecutar la query preparada
+ 		if ($stmt->execute()) {
+ 			list($teacherId) = $stmt->fetch(PDO::FETCH_NUM);
+ 		} else {
+ 			die('error al obtener el monedero tlmCoin del usuario');
+ 		}
+	}
+	$teachCoin = parse_coin($teacherId,$pdo);
+	$teacherCoin = $teachCoin[0];
+	$teacherCoinSecret = $teachCoin[1];
+	if (transfer_coin($studentCoin,$teacherCoin,$studentCoinSecret,$price)) {
+		//TODO: 2. Crear NUEVO DIPLOMA:
+		if ($stmt = $pdo->prepare('SELECT diploma_oid, diploma_secret FROM classes WHERE id=:c')) {
+	 		$stmt->bindParam(':c', $classId);
+	 		// Ejecutar la query preparada
+	 		if ($stmt->execute()) {
+	 			list($genDiplomaOid,$genDiplomaSecret) = $stmt->fetch(PDO::FETCH_NUM);
+	 		} else {
+	 			die('error al obtener el monedero tlmCoin del usuario');
+	 		}
 		}
-	}*/
+
+		$r=file_get_contents('https://webalumnos.tlm.unavarra.es:10169/vobj/nuevo.php?oid='.$genDiplomaOid.'&secret='.$genDiplomaSecret.'&coin='.$teacherCoin.'-'.$teacherCoinSecret); 
+		$newDiplomaOid=json_decode($r,true)['oid'];
+		$newDiplomaSecret=json_decode($r,true)['secret'];
+
+		// Insertar el nuevo diploma en la base de datos
+		if ($insert_stmt = $pdo->prepare("INSERT INTO diplomas (diploma_oid,diploma_secret) VALUES (:o, :s)")) {
+		    $insert_stmt->bindParam(':o', $newDiplomaOid);
+		    $insert_stmt->bindParam(':s', $newDiplomaSecret);
+		    // Ejecutar la query preparada
+		    if ($insert_stmt->execute()) {
+		    	$teacher = 0;
+		    	if (create_event($dateTime,$classId,$userId,$teacher,$pdo)){
+		    		return true;
+		    	}
+		    } else {
+		    	echo 'error en INSERT INTO diplomas';
+		        return false;
+		    }
+		}
+		
+	}
 }
 
 function create_event($dateTime,$classId,$userId,$teacher,$pdo) {
