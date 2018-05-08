@@ -36,6 +36,11 @@ body {
 .form-signin input[type="email"] {
   margin-bottom: 30px;
 }
+
+.form-signin input[type="tlmcoin"] {
+  margin-bottom: 30px;
+}
+
 #reg{
   padding-bottom: 20px;
 }

@@ -1,94 +1,126 @@
 <!doctype html>
 <html lang="es">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		<title>tlmGYM</title>
-		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
-		<link href="assets/css/index.css" rel="stylesheet">
-	</head>
-	<body>
-		<header>
-			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark mb-4" >
-				<a class="navbar-brand" href="#"><h2>tlmGYM</h2></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarCollapse">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
-							<a class="nav-link" href="#">Inicio<span class="sr-only">(current)</span></a>
-						</li>
-						<li class="nav-item active">
-							<a class="nav-link" href="list_classes.php">Ver clases<span class="sr-only">(current)</span></a>
-						</li>
-						<li class="nav-item active">
-							<a class="nav-link" href="#">Horario<span class="sr-only">(current)</span></a>
-						</li>
-					</ul>
-					<a class="p-2 text-white" href="login.html">Identificarse</a>
-					<a class="p-2 text-white" href="signup.html">Registrarse</a>
-				</div>
-			</nav>
-		</header>
-		<main role="main">
-			<div id="myCarousel" class="carousel slide" data-ride="carousel">
-				<div class="carousel-inner">
-					<div class="carousel-item active">
-							<div class="carousel-caption text-left">
-								<h1>Descripcion de la página</h1>
-								<p>La misión de esta web es gestionar la organización temporal de distintas clases o eventos impartidos en este gimnasio.<br>
-								Existen clases ya establecidas propias del gimnasio a las que el cliente puede apuntarse haciendo uso de los tlmCoins.<br>
-								Además, usted podrá crear su propia clase, siendo administrador de la misma y añadiendola a nuestro horario.<br>
-								¡Regístrate si todavía no eres usuario!</p>
-								<p><a class="btn btn-lg btn-primary" href="signup.html" role="button">Registrarse</a></p>
-							</div>
-						</div>
-				</div>
-			</div>
-			<!-- Marketing messaging and featurettes
-			================================================== -->
-			<!-- Wrap the rest of the page in another container to center all the content. -->
-			<div class="container">
-				<hr class="featurette-divider">
-				<p><h1>Crea tu propia clase:</h1></p>
-				<hr class="featurette-divider">
-				<p><h2> ¿Eres entrenador personal? ¿Tienes titulación deportiva?</h2></p>
-				<p><h4> Imparte tus propias clases.<br>
-				En el apartado "crear clase" podrás añadir tu clase a nuestro horario. Asigna una tarifa y ofrece a nuestros clientes la posibilidad de probar algo nuevo.</h4></p>
-			 <p><a class="btn btn-lg btn-primary" href="form_class.html" role="button">Crear clase</a></p>
-				<!-- Descripcion semanal -->
-				<hr class="featurette-divider">
-				<p><h1>Nuestras clases:</h1></p>
-				<hr class="featurette-divider">
-				<div class="row featurette">
-					<div class="col-md-7">
-						<h2 class="featurette-heading">Halterofilia. <span class="text-muted">Hazte más fuerte.</span></h2>
-						<p class="lead">Deporte que consiste en el levantamiento de halteras o pesas; los participantes se dividen en diferentes categorías según su peso y vence aquel que consigue levantar mayor peso sumando los obtenidos en los dos movimientos realizados: el de arrancada y el de levantada y tierra.</p>
-						<p class="lead"> Precio: X tlmCoins</p>
-					</div>
-					<div class="col-md-5">
-						<img src="assets/img/halterofilia.png" alt="imagen halterofilia">
-					</div>
-				</div>
-				<hr class="featurette-divider">
-				<div class="row featurette">
-					<div class="col-md-7">
-						<h2 class="featurette-heading">Endurance. <span class="text-muted">Logra más.</span></h2>
-						<p class="lead">Endurance, como entrenamiento de resistencia, permitirá la mejora de la velocidad y la potencia, a la vez que se reducen los tiempos de recuperación y riesgo de lesiones y en resumen se desarrolla una curva de rendimiento más sostenible.</p>
-						<p class="lead">Precio: X tlmCoins </p>
-					</div>
-					<div class="col-md-5">
-						<img class="run" height="250px" width="250px" src="assets/img/run.png" alt="imagen running">
-					</div>
-				</div>
-				<hr class="featurette-divider">	
-			</div>
-			<!-- FOOTER -->
-			<footer class="container"></footer>
-		</main>
-		<script src="assets/js/bootstrap.min.js"></script>
-	</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>tlmGYM</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/index.css" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark mb-4" >
+        <a class="navbar-brand" href="#"><h2>tlmGYM</h2></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Inicio<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="list_classes.php">Ver clases<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="mycal.php">Horario<span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+          <a class="p-2 text-white" href="login.html">Identificarse</a>
+          <a class="p-2 text-white" href="signup.html">Registrarse</a>
+        </div>
+      </nav>
+    </header>
+
+    <main role="main">
+
+      
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+       
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+            
+                <div class="carousel-caption text-left container">
+                  <h1>Descripcion de la página</h1>
+                  <p>La misión de esta web es gestionar la organización temporal de distintas clases o eventos impartidos en este gimnasio.</p>
+                  <p>Existen clases ya establecidas propias del gimnasio a las que el cliente puede apuntarse haciendo uso de los tlmCoins. </p>
+                  <p >Además, usted podrá crear su propia clase, siendo administrador de la misma y añadiendola a nuestro horario. </p>  
+                  <p>¡Regístrate si todavía no eres usuario!</p>
+                  <p><a class="btn btn-lg btn-primary bot" href="signup.html" role="button">Registrarse</a></p>
+                </div>
+              </div>
+           
+          </div>
+        
+        </div>
+      
+
+
+      <!-- Marketing messaging and featurettes
+      ================================================== -->
+      <!-- Wrap the rest of the page in another container to center all the content. -->
+
+      <div class="container">
+        <hr class="featurette-divider">
+        <p><h1>Crea tu propia clase:</h1></p>
+        <hr class="featurette-divider">
+        
+        <p><h2> ¿Eres entrenador personal? ¿Tienes titulación deportiva?</h2></p>
+        <p><h4> Imparte tus propias clases</p> 
+        <p>En el apartado "crear clase" podrás añadir tu clase a nuestro horario. Asigna una tarifa y ofrece a nuestros clientes la posibilidad de probar algo nuevo.</h4></p>
+        <p><a class="btn btn-lg btn-primary bot" href="form_class.html" role="button">Crear clase</a></p>
+
+     
+
+
+        <!-- Descripcion semanal -->
+
+        <hr class="featurette-divider">
+        <p><h1>Nuestras clases:</h1></p>
+        <hr class="featurette-divider">
+       
+
+        <div class="row featurette">
+          <div class="col-md-7">
+            <h2 class="featurette-heading">Halterofilia. <span class="text-muted">Hazte mas fuerte.</span></h2>
+            <p class="lead">Deporte que consiste en el levantamiento de halteras o pesas; los participantes se dividen en diferentes categorías según su peso y vence aquel que consigue levantar mayor peso sumando los obtenidos en los dos movimientos realizados: el de arrancada y el de levantada y tierra.</p>
+            <p class="lead"> Precio: X tlmCoins</p>
+          </div>
+          <div class="col-md-5">
+            <img src="assets/img/halterofilia.png" alt="imagen halterofilia">
+          </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+          <div class="col-md-7">
+            <h2 class="featurette-heading">Endurance. <span class="text-muted">Logra más.</span></h2>
+            <p class="lead">Endurance, como entrenamiento de resistencia, permitirá la mejora de la velocidad y la potencia, a la vez que se reducen los tiempos de recuperación y riesgo de lesiones y en resumen se desarrolla una curva de rendimiento más sostenible.</p>
+            <p class="lead">Precio: X tlmCoins </p>
+          </div>
+          <div class="col-md-5">
+            <img class="run" height="250px" width="250px" src="assets/img/run.png" alt="imagen running">
+          </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+          
+
+        <hr class="featurette-divider">
+
+       
+
+      </div>
+
+
+      <!-- FOOTER -->
+      <footer class="container">
+        <p class="float-right"><a href="index.html">Inicio</a></p>
+      </footer>
+    </main>
 </html>

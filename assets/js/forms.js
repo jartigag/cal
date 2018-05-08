@@ -22,7 +22,7 @@ function checkSignup(form, username, email, tlmcoin, password, conf) {
         return false;
     }
 
-    //conf.value = "N0enviarpasswordporestecampo"; // Borrar la confirmación de contraseña en texto plano, para asegurarse de que no se envía.
+    conf.value = "N0enviarpasswordporestecampo"; // Borrar la confirmación de contraseña en texto plano, para asegurarse de que no se envía.
     // DEBUGGING: Línea anterior comentada porque daba problemas en Firefox (no en Chrome)
 
     sendPasswordSecurely(form, password);
@@ -39,7 +39,7 @@ function sendPasswordSecurely(form, password) {
   p.value = sha1(password.value); // Se envía password hasheada con sha1,
                                   // para que no viaje como texto plano.
 
-  //password.value = "N0enviarpasswordporestecampo"; // Borrar la contraseña en texto plano, para asegurarse de que no se envía.
+  password.value = "N0enviarpasswordporestecampo"; // Borrar la contraseña en texto plano, para asegurarse de que no se envía.
   // DEBUGGING: Línea anterior comentada porque daba problemas en Firefox (no en Chrome)
 
   // Enviar el formulario

@@ -66,21 +66,22 @@ function validate_signup($username, $email, $tlmcoin, $pdo) {
     return true;
 }
 
-function create_user($username, $email, $hashed_password, $tlmcoin, $pdo) {
+function create_user($username, $email, $tlmcoin, $hashed_password, $pdo) {
 	// Crear una semilla aleatoria
 	// uso sha1 simplemente para que el hash no quede tan largo en la tabla
 	$random_salt = hash('sha1', uniqid(openssl_random_pseudo_bytes(16), TRUE));
 	// Crear contraseña hasheada con la semilla
 	$hashed2_password = hash('sha1', $hashed_password.$random_salt);
 	// Insertar el nuevo usuario en la base de datos
-	if ($insert_stmt = $pdo->prepare("INSERT INTO users (username, email, password, random_salt, tlmcoin) VALUES (:u, :e, :p, :s, :t)")) {
+	if ($insert_stmt = $pdo->prepare("INSERT INTO users (username, email, tlmcoin, password, random_salt) VALUES (:u, :e, :t, :p, :s)")) {
 	    $insert_stmt->bindParam(':u', $username);
 	    $insert_stmt->bindParam(':e', $email);
+	    $insert_stmt->bindParam(':t', $tlmcoin);
 	    $insert_stmt->bindParam(':p', $hashed2_password);
 	    $insert_stmt->bindParam(':s', $random_salt);
-	    $insert_stmt->bindParam(':t', $tlmcoin);
 	    // Ejecutar la query preparada
 	    if (!$insert_stmt->execute()) {
+	    	echo 'error con la query en create_user';
 	    	print_r($pdo->errorInfo());
 	    }
 	}
@@ -101,15 +102,13 @@ function validate_coin($userId,$price,$pdo) {
 }
 
 function transfer_coin($srcid,$dstid,$auth,$value) {
-	//TODO: https://coin.tlm.unavarra.es/api/transfer.php?srcid=17&dstid=43&auth=ahjsbdy1d189db&value=10
 	$r=file_get_contents('https://coin.tlm.unavarra.es/api/transfer.php?srcid='.$srcid.'&dstid='.$dstid.'&auth='.$auth.'&value='.$value);
 	$response=json_decode($r,true)['ok'];
 
 	return $response;
 }
 
-function parse_coin($userId,$pdo) {
-	//TODO: consultar y devolve tlmcoin (sin secret) del usuario en la tabla users
+function parse_coin($userId,$pdo) { //TODO: reescribir para no tener que pasar $pdo
 	if ($stmt = $pdo->prepare('SELECT tlmcoin FROM users WHERE id= :i')) {
  		$stmt->bindParam(':i', $userId);
  		// Ejecutar la query preparada
@@ -131,14 +130,6 @@ function create_class($course, $lesson, $price, $datetimeStart, $datetimeEnd, $p
 		- que las fechas sean válidas
 		- que datetimeStart < datetimeEnd
 	*/
-    //TODO: Crear DIPLOMA GENERADOR:
-    /*https://webalumnos.tlm.unavarra.es:10169/vobj/crea.php?
-    nombre=diploma&
-    desc= $classId &
-    icon=&
-    propietario= $userId &
-    generador=1&
-    coin= parse_coin($userId)[0]*/
 
     //INSERT INTO classes (diploma_oid, diploma_secret) values (oid,secret)
 	// Insertar la nueva clase en la base de datos
@@ -185,8 +176,21 @@ function create_class($course, $lesson, $price, $datetimeStart, $datetimeEnd, $p
 	}
 }
 
+function vobj_nuevo($genDiplomaOid,$genDiplomaSecret,$teacherCoin,$teacherCoinSecret) {
+	$r=file_get_contents('https://webalumnos.tlm.unavarra.es:10169/vobj/nuevo.php?oid='.$genDiplomaOid.'&secret='.$genDiplomaSecret.'&coin='.$teacherCoin.'-'.$teacherCoinSecret); //TODO: mejorable
+
+	//TODO: controlar errores
+	return json_decode($r,true);
+}
+
+function vobj_transfiere($diplomaOid,$diplomaSecret,$propietario_dest) {
+	$r=file_get_contents('https://webalumnos.tlm.unavarra.es:10169/vobj/transfiere.php?oid='.$diplomaOid.'&secret='.$diplomaSecret.'&propietario='.$propietario_dest);
+
+	//TODO: controlar errores
+	return json_decode($r,true);
+}
+
 function join_class($dateTime,$classId,$userId,$price,$pdo) {
-	//TODO: 
 	// 1. Pagar de Alumno a Profesor:
 	$stuCoin = parse_coin($userId,$pdo);
 	$studentCoin = $stuCoin[0];
@@ -204,25 +208,26 @@ function join_class($dateTime,$classId,$userId,$price,$pdo) {
 	$teacherCoin = $teachCoin[0];
 	$teacherCoinSecret = $teachCoin[1];
 	if (transfer_coin($studentCoin,$teacherCoin,$studentCoinSecret,$price)) {
-		//TODO: 2. Crear NUEVO DIPLOMA:
+		// 2. Crear NUEVO DIPLOMA:
 		if ($stmt = $pdo->prepare('SELECT diploma_oid, diploma_secret FROM classes WHERE id=:c')) {
 	 		$stmt->bindParam(':c', $classId);
 	 		// Ejecutar la query preparada
 	 		if ($stmt->execute()) {
 	 			list($genDiplomaOid,$genDiplomaSecret) = $stmt->fetch(PDO::FETCH_NUM);
 	 		} else {
-	 			die('error al obtener el monedero tlmCoin del usuario');
+	 			die('error al INSERTAR el oid y secret del nuevo diploma');
 	 		}
 		}
 
-		$r=file_get_contents('https://webalumnos.tlm.unavarra.es:10169/vobj/nuevo.php?oid='.$genDiplomaOid.'&secret='.$genDiplomaSecret.'&coin='.$teacherCoin.'-'.$teacherCoinSecret); 
-		$newDiplomaOid=json_decode($r,true)['oid'];
-		$newDiplomaSecret=json_decode($r,true)['secret'];
+		$newDiploma = vobj_nuevo($genDiplomaOid,$genDiplomaSecret,$teacherCoin,$teacherCoinSecret);
 
 		// Insertar el nuevo diploma en la base de datos
-		if ($insert_stmt = $pdo->prepare("INSERT INTO diplomas (diploma_oid,diploma_secret) VALUES (:o, :s)")) {
-		    $insert_stmt->bindParam(':o', $newDiplomaOid);
-		    $insert_stmt->bindParam(':s', $newDiplomaSecret);
+		if ($insert_stmt = $pdo->prepare("INSERT INTO diplomas (diploma_oid,diploma_secret,user_id,class_id) VALUES (:o, :s; :u, :c)")) {
+			//TODO: falla. REPASAR
+		    $insert_stmt->bindParam(':o', $newDiploma['oid']);
+		    $insert_stmt->bindParam(':s', $newDiploma['secret']);
+		    $insert_stmt->bindParam(':u', $userId);
+		    $insert_stmt->bindParam(':c', $classId);
 		    // Ejecutar la query preparada
 		    if ($insert_stmt->execute()) {
 		    	$teacher = 0;
@@ -234,7 +239,8 @@ function join_class($dateTime,$classId,$userId,$price,$pdo) {
 		        return false;
 		    }
 		}
-		
+	} else {
+		echo 'error en el pago de alumno a profesor';
 	}
 }
 
@@ -256,10 +262,37 @@ function create_event($dateTime,$classId,$userId,$teacher,$pdo) {
 	}
 }
 
-function transfer_diploma($dateTime,$propietario_dest,$pdo) {
-	//TODO: obtener $oid,$secret con un SELECT FROM de donde corresponda (tabla 'diplomas' quizás?)
-	//TODO: https://webalumnos.tlm.unavarra.es:10169/vobj/transfiere.php?oid=$oid&secret=$secret
-	//TODO: apuntar diploma como entregado
+function transfer_diploma($dateTime,$classId,$propietario_dest,$pdo) {
+	//1. obtener oid y secret del diploma de esta clase:
+		if ($stmt = $pdo->prepare('SELECT diploma_oid, diploma_secret FROM diplomas WHERE class_id=:c')) {
+	 		$stmt->bindParam(':c', $classId);
+	 		// Ejecutar la query preparada
+	 		if ($stmt->execute()) {
+	 			list($diplomaOid,$diplomaSecret) = $stmt->fetch(PDO::FETCH_NUM);
+	 		} else {
+	 			die('error al obtener el monedero tlmCoin del usuario');
+	 		}
+		}
+
+	//2. transferir al alumno:
+	$newDiploma = vobj_transfiere($diplomaOid,$diplomaSecret,$propietario_dest);
+
+	// 3. insertar el nuevo diploma ENTREGADO en la base de datos
+	if ($insert_stmt = $pdo->prepare("INSERT INTO diplomas (diploma_oid,diploma_secret,entregado,date_time,user_id,class_id) VALUES (:o,:s,1,:d,:u,:c)")) {
+	    $insert_stmt->bindParam(':o', $newDiploma['oid']);
+	    $insert_stmt->bindParam(':s', $newDiploma['secret']);
+	    $insert_stmt->bindParam(':d', $dateTime);
+	    $insert_stmt->bindParam(':u', $propietario_dest);
+	    $insert_stmt->bindParam(':c', $classId);
+	    // Ejecutar la query preparada
+	    if ($insert_stmt->execute()) {
+	    	print(json_encode($newDiploma);
+	    	return true;
+	    } else {
+	    	echo 'error en INSERT INTO diploma entregado';
+	        return false;
+	    }
+	}
 }
 
 function login($username, $hashed_password, $pdo) {
@@ -290,7 +323,7 @@ function login($username, $hashed_password, $pdo) {
 			} else {
 				// Contraseña incorrecta.
 				// Grabar el intento de login en la base de datos
-				$now = time();
+				$now = date('Y-m-d H:i:s');
 				$pdo->query("INSERT INTO login_attempts (user_id, time) VALUES ('$user_id', '$now')");
 				return false;
 			}

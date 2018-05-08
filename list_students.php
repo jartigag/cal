@@ -9,9 +9,8 @@ if (isset($_SESSION['user_id'])) { //TODO: controlar que sea el profesor
 			$navbar = file_get_contents("assets/navbar.html");
 			$template_table = file_get_contents("assets/students_table.html");	//$template_table es una tabla en hml
 			$row = file_get_contents("assets/students_row.html");				//$row es una fila en html
-			$result = str_replace("##navbar##", $navbar, $template_table);
-			$result = str_replace("##class_id##", $classId, $result);
 			$rows = ""; 														//en $rows se concatenará cada fila generada
+			$result = str_replace("##navbar##", $navbar, $template_table);
 			//TODO: obtener ##lesson##, ##course##
 			if (!isset($_SESSION['username'])) {
 				$result = str_replace("##username##", '¡No te has identificado!', $result);
@@ -35,6 +34,7 @@ if (isset($_SESSION['user_id'])) { //TODO: controlar que sea el profesor
 				$student=$stmt->fetch(PDO::FETCH_ASSOC);
 			}
 			$result = str_replace('##filas##', $rows, $result);
+			$result = str_replace("#class_id#", $classId, $result);
 			print($result);
 		//}
 		//print_tabla();
