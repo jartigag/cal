@@ -1,6 +1,8 @@
 <?php
 include 'db_connect.php';
-include 'functions.php';
+include 'functions_create.php';
+include 'functions_tlmcoin.php';
+include 'functions_vobj.php';
 
 session_start();
 

@@ -37,7 +37,7 @@ body {
   margin-bottom: 30px;
 }
 
-.form-signin input[type="tlmcoin"] {
+.form-signin input[name="tlmcoin"] {
   margin-bottom: 30px;
 }
 

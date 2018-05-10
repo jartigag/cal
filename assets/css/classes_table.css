@@ -14,25 +14,26 @@ p {
 
 .ml-auto .dropdown-menu {
   left: auto !important;
-  right: 0px;
 }
 
-  /* 
-  Generic Styling, for Desktops/Laptops 
-  */
+
   table { 
-    width: 100%; 
+    margin-top: 7em;
+    width: 80%; 
+    margin-left: 2em;
     border-collapse: collapse; 
   }
-  /* Zebra striping */
+
   tr:nth-of-type(odd) { 
     background: #eee; 
   }
+
   th { 
     background: #333; 
     color: white; 
     font-weight: bold; 
   }
+
   td, th { 
     padding: 6px; 
     border: 1px solid #ccc; 
