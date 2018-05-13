@@ -153,8 +153,7 @@ function join_class($dateTime,$classId,$userId,$price,$pdo) {
         $newDiploma = vobj_nuevo($genDiplomaOid,$genDiplomaSecret,$teacherCoin,$teacherCoinSecret);
 
         // Insertar el nuevo diploma en la base de datos
-        if ($insert_stmt = $pdo->prepare("INSERT INTO diplomas (diploma_oid,diploma_secret,user_id,class_id) VALUES (:o, :s; :u, :c)")) {
-            //TODO: falla. REPASAR
+        if ($insert_stmt = $pdo->prepare("INSERT INTO diplomas (diploma_oid,diploma_secret,user_id,class_id) VALUES (:o, :s, :u, :c)")) {
             $insert_stmt->bindParam(':o', $newDiploma['oid']);
             $insert_stmt->bindParam(':s', $newDiploma['secret']);
             $insert_stmt->bindParam(':u', $userId);
