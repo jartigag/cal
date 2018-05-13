@@ -20,8 +20,13 @@ $(document).ready(function() {
 			center: 'title',
 			right: 'month,basicWeek,basicDay'
 		},
+		/*editable: true,
+		eventDrop: function(event, delta) {
+            alert(event.title + ' was moved ' + delta + ' days\n' +
+                '(should probably update your database)');
+        },*/
 		events: {
-			url: './test_events.php',
+			url: './json_events.php',
 			color: 'yellow',
 			textColor: 'black'
 		}

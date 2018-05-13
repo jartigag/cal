@@ -12,7 +12,7 @@ if (isset($_SESSION['user_id'])) { //TODO: controlar que sea el profesor
 		$propietario_dest = $_POST['user_id']; //TODO: debería sanear esta variable GET?
 		$dateTime = date('Y-m-d H:i:s');
 	    if(transfer_diploma($dateTime,$classId,$propietario_dest,$pdo)){
-	    	echo 'diploma entregado!';
+	    	echo '\ndiploma entregado!';
 	    }
 	} else { 
 		// No se ha enviado la variable GET correcta

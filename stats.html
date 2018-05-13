@@ -8,6 +8,8 @@
     <title>Estadísticas</title>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/index.css" rel="stylesheet">
+    <script src='fullcalendar/lib/jquery.min.js'></script>
+    <script src="assets/js/bootstrap.min.js"></script>
   </head>
   <body>
     <header>
@@ -27,9 +29,8 @@
             <li class="nav-item active">
               <a class="nav-link" href="mycal.php">Horario<span class="sr-only">(current)</span></a>
             </li>
-             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="estadisticas.html">Estadísticas<span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="stats.html">Estadísticas<span class="sr-only">(current)</span></a>
             </li>
           </ul>
           <a class="p-2 text-white" href="login.html">Identificarse</a>
@@ -47,9 +48,9 @@
             <div class="carousel-item active estad">
             
                 <div class="carousel-caption text-left container textestad">
-                  <h1>Estadísticas</h1>
-                  <p>En esta sección conocerá de primera mano los datos mas relevantes sobre el gimnasio</p>
-                  <p>Las clases mas populares, progreso del alumnado, asistencia a las clases, etc...</p>
+                  <h1><a name="up" href="#"></a>Estadísticas</h1>
+                  <p>En esta sección conocerá de primera mano los datos más relevantes sobre el gimnasio:</p>
+                  <p>las clases más populares, progreso del alumnado, asistencia a las clases, etc...</p>
                 </div>
               </div>
            
@@ -63,7 +64,7 @@
 
       <!-- FOOTER -->
       <footer class="container">
-        <p class="float-right"><a href="index.html">Inicio</a></p>
+        <p class="float-right"><a href="#tlmGYM">Volver arriba</a></p>
       </footer>
     </main>
 </html>

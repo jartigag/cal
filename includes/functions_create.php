@@ -146,7 +146,7 @@ function join_class($dateTime,$classId,$userId,$price,$pdo) {
             if ($stmt->execute()) {
                 list($genDiplomaOid,$genDiplomaSecret) = $stmt->fetch(PDO::FETCH_NUM);
             } else {
-                die('error al INSERTAR el oid y secret del nuevo diploma');
+                die('error en SELECT el oid y secret del nuevo diploma');
             }
         }
 
@@ -217,6 +217,7 @@ function transfer_diploma($dateTime,$classId,$propietario_dest,$pdo) {
         $insert_stmt->bindParam(':c', $classId);
         // Ejecutar la query preparada
         if ($insert_stmt->execute()) {
+            // Imprimir el nuevo secreto del diploma ya entregado
             print(json_encode($newDiploma));
             return true;
         } else {
