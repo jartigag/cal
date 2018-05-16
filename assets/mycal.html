@@ -8,15 +8,27 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="assets/css/mycal.css" />
     <link rel='stylesheet' href="fullcalendar/fullcalendar.css" />
-    <link rel="stylesheet" href="fullcalendar/style.css" />
     <script src='fullcalendar/lib/jquery.min.js'></script>
+    <script src='fullcalendar/lib/jquery-ui.min.js'></script>
     <script src='fullcalendar/lib/moment.min.js'></script>
     <script src='fullcalendar/fullcalendar.js'></script>
     <script src='assets/js/cal.js'></script>
 </head>
 <body>
     ##navbar##
-    <div id='calendar'></div>
+    <div id='external-events'>
+      <p>
+        <strong>Draggable Events</strong>
+      </p>
+      <div class='fc-event'>My Event 1</div>
+      <div class='fc-event'>My Event 2</div>
+      <div class='fc-event'>My Event 3</div>
+      <div class='fc-event'>My Event 4</div>
+      <div class='fc-event'>My Event 5</div>
+    </div>
+    <div id='calendar-container'>
+      <div id='calendar'></div>
+    </div>
     <script src="assets/js/bootstrap.min.js"></script>
 </body>
 </html>

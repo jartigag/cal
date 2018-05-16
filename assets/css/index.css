@@ -3,6 +3,7 @@
 /* Padding below the footer and lighter body text */
 
 body {
+  font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
   padding-top: 3rem;
   padding-bottom: 3rem;
   color: #5a5a5a;
@@ -105,10 +106,6 @@ body {
 
 .bot{
   margin: 1em;
-}
-
-.options{
-  margin-right: 3.2em;
 }
 
 .estad{

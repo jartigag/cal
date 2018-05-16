@@ -1,0 +1,7 @@
+.options {
+  margin-right: 3.2em;
+}
+
+.ml-auto .dropdown-menu {
+  left: auto !important;
+}
