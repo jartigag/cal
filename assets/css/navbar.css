@@ -1,3 +1,11 @@
+/*Aquí los estilos personalizados que se vaya a aplicar a todas las páginas
+(ya que navbar se va a cargar en todas)*/
+
+body {
+  font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+  color: #5a5a5a;
+}
+
 .options {
   margin-right: 3.2em;
 }

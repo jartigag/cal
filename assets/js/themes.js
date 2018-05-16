@@ -1,18 +1,9 @@
-optnToggleTheme = document.getElementById('optnToggleTheme');
-console.log(optnToggleTheme);
-
-optnToggleTheme.addEventListener('click', toggleTheme);
-
-function toggleTheme(event) {
+function teacherEvent() {
+  //TODO: pone el theme-teacher.css
   var stylesheets = document.styleSheets;
-  console.log(event);
-
-  for(i=0; i<stylesheets.length; i++) {
-  	if (stylesheets[i].href.indexOf(event) !== -1) {
-  		stylesheets[i].disabled = false;	
-  	} else {
-  		stylesheets[i].disabled = true;
-  	}
-    //stylesheet[i].disabled = (stylesheet[i].href.indexOf(themeName) !== -1) ? false : true;
-  }
+  console.log(stylesheets);
+  var cssDefault = stylesheets[stylesheets.length-1];
+  var cssTeacher = stylesheets[stylesheets.length-2];
+	cssTeacher.disabled = false;
+	cssDefault.disabled = true;
 }
