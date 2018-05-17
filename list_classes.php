@@ -9,6 +9,13 @@ function print_tabla($result,$pdo) {
 	$row = file_get_contents("assets/classes_row.html");	//$row es una fila en html
 	$rows = ""; 											//en $rows se concatenará cada fila generada
 
+	if (!isset($_SESSION['username'])) {
+		$result = str_replace("##username##", '¡No te has identificado!', $result);
+		$result = str_replace('<a class="dropdown-item" href="logout.php">Salir</a>', '<a class="dropdown-item" href="login.html">Indentificarse</a><a class="dropdown-item" href="signup.html">Registrarse</a>', $result);
+	} else {
+		$result = str_replace("##username##", $_SESSION['username'], $result);
+	}
+
 	$stmt=$pdo->query("SELECT * FROM classes");
 	if ($stmt===false) {
 		die("error en la query");
@@ -30,12 +37,7 @@ function print_tabla($result,$pdo) {
 	print($result);
 }
 
-if (!isset($_SESSION['username'])) {
-	$result = str_replace("##username##", '¡No te has identificado!', $result);
-	$result = str_replace('<a class="dropdown-item" href="logout.php">Salir</a>', '<a class="dropdown-item" href="login.html">Indentificarse</a><a class="dropdown-item" href="signup.html">Registrarse</a>', $result);
-} else {
-	$result = str_replace("##username##", $_SESSION['username'], $result);
-}
+$result="";
 
 $navbar = file_get_contents("assets/navbar.html");
 $navbar = str_replace( // Poner el nav-link de la página actual activo

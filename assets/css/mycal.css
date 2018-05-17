@@ -34,3 +34,8 @@
   max-width: 900px;
   margin: 0 auto;
 }
+
+#external-events > p {
+  font-weight: bold;
+  text-align: center;
+}

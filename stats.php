@@ -3,6 +3,11 @@ session_start();
 
 $template = file_get_contents("stats.html");
 $navbar = file_get_contents("assets/navbar.html");
+$navbar = str_replace( //TODO: no está funcionando aquí.. Poner el nav-link de la página actual activo
+	'<li class="nav-item">
+			<a class="nav-link" href="stats.php">Estadísticas</a>',
+    '<li class="nav-item active">
+			<a class="nav-link" href="stats.php">Estadísticas</a>', $navbar);
 $result = str_replace("##navbar##", $navbar, $template);
 	
 if (isset($_SESSION['username'])) {

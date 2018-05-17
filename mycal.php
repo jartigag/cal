@@ -3,11 +3,11 @@ session_start();
 if (isset($_SESSION['username'])) {
 	$template = file_get_contents("assets/mycal.html");
 	$navbar = file_get_contents("assets/navbar.html");
-	$navbar = str_replace(
-		'<li class="nav-item">
-                <a class="nav-link" href="mycal.php">Tu Calendario</a>',
-        '<li class="nav-item active">
-                <a class="nav-link" href="mycal.php">Tu Calendario</a>', $navbar);
+	$navbar = str_replace( // Poner el nav-link de la página actual activo
+	'<li class="nav-item">
+			<a class="nav-link" href="mycal.php">Horario</a>',
+    '<li class="nav-item active">
+			<a class="nav-link" href="mycal.php">Horario</a>', $navbar);
 	$result = str_replace("##navbar##", $navbar, $template);
 	if (!isset($_SESSION['username'])) {
 		$result = str_replace("##username##", '¡No te has identificado!', $result);
