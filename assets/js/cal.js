@@ -1,12 +1,12 @@
 /*
-DOCUMENTACI√ìN: https://fullcalendar.io/docs
+DOCUMENTACI”N: https://fullcalendar.io/docs
 
 EJEMPLOS:
 [x] click en evento:
 	https://fullcalendar.io/docs/eventClick-demo
 	(https://fullcalendar.io/docs/eventClick)
 
-[ ] a√±adir eventos externos:
+[ ] aÒadir eventos externos:
 	https://fullcalendar.io/releases/fullcalendar/3.9.0/demos/external-dragging.html
 	(https://fullcalendar.io/docs/event-dragging-resizing)
 	(https://fullcalendar.io/docs/eventReceive)
@@ -47,11 +47,11 @@ $(document).ready(function() {
 		editable: true,
 		droppable: true,
 		drop: function(date, revertFunc) {
-			/*TODO: c√≥mo usar event?
+			/*TODO: cÛmo usar event?
 			var start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
 			var end = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss"); //TODO: falla event.end
 			if (!confirm('La clase\n"'+event.title+'"\nse va a crear en \n'+start)) {
-				revertFunc(); //TODO: reverFunc no est√° definida
+				revertFunc(); //TODO: reverFunc no est· definida
 			}
 			$.ajax({
 				url: './events_fullcalendar/add_event.php',
@@ -69,7 +69,7 @@ $(document).ready(function() {
 			var start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
 			var end = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss"); //TODO: falla event.end
 			if (!confirm('La clase\n"'+event.title+'"\nse va a mover a \n'+start)) {
-				revertFunc(); //TODO: reverFunc no est√° definida
+				revertFunc(); //TODO: reverFunc no est· definida
 			}
 			$.ajax({
 				url: './events_fullcalendar/update_event.php',
@@ -88,7 +88,7 @@ $(document).ready(function() {
 			var start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
 			var end = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss"); //TODO: falla event.end
 			if (!confirm('Se va a cambiar el tiempo que dura la clase\n"'+event.title+'"')) {
-				revertFunc(); //TODO: reverFunc no est√° definida
+				revertFunc(); //TODO: reverFunc no est· definida
 			}
 			$.ajax({
 				url: './events_fullcalendar/update_event.php',

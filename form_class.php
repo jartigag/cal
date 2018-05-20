@@ -2,7 +2,7 @@
 session_start();
 	
 if (isset($_SESSION['username'])) {
-	$template = file_get_contents("form_class.html");
+	$template = file_get_contents("assets/form_class.html");
 	$navbar = file_get_contents("assets/navbar.html");
 	$navbar = str_replace( // Poner el nav-link de la página actual activo
 		'<li class="nav-item"><a class="nav-link" href="form_class.php">Crear clase</a></li>',

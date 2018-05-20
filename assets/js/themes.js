@@ -1,9 +1,16 @@
-function teacherEvent() {
-  //TODO: pone el theme-teacher.css
-  var stylesheets = document.styleSheets;
-  console.log(stylesheets);
-  var cssDefault = stylesheets[stylesheets.length-1];
-  var cssTeacher = stylesheets[stylesheets.length-2];
-	cssTeacher.disabled = false;
-	cssDefault.disabled = true;
-}
+toggleTheme = document.getElementById('toggleTheme');
+
+toggleTheme.addEventListener('click', function teacherEvent() {
+	console.log('in');
+	var stylesheets = document.styleSheets;
+	console.log(stylesheets);
+	var cssLight = stylesheets[stylesheets.length-1];
+	var cssDark = stylesheets[stylesheets.length-2];
+	if (cssLight.disabled) {
+		cssLight.disabled = false;
+		cssDark.disabled = true;
+	} else {
+		cssDark.disabled = false;
+		cssLight.disabled = true;
+	}
+});

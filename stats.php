@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$template = file_get_contents("stats.html");
+$template = file_get_contents("assets/stats.html");
 $navbar = file_get_contents("assets/navbar.html");
 $navbar = str_replace( // Poner el nav-link de la página actual activo
 	'<li class="nav-item"><a class="nav-link" href="stats.php">Estadísticas</a></li>',

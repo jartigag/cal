@@ -1,7 +1,5 @@
 <?php
 include 'includes/db_connect.php';
-//TODO: controlar si es el profesor (entonces link en sus clases que llevan a list_students.php?class_id=X)
-//		o alumno (entonces sin link en clases)
 
 session_start();
 
