@@ -56,7 +56,7 @@ try {
 	INSERT INTO events(id,date_time,class_id,course,user_id,teacher) VALUES (11,now(),5,'Endurance',3,0);
 
 	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (1,'Halterofilia','#1: Levantar 5 kg',0.99,'2018-05-24 08:00:00','2018-05-24 09:00:00',1107,'e8ce051cb0bbac41');
-	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (2,'Endurance','#1: Correr 30 minutos',4.07,'2018-05-25 10:00:00','2018-05-25 11:00:00',1108,'4c2cad2dc25de8a9');
+	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (2,'Endurance','#1: Correr 1 hora',4.07,'2018-05-25 10:00:00','2018-05-25 11:00:00',1108,'4c2cad2dc25de8a9');
 	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (3,'Senderismo','#1: Andar 1 hora',0.99,'2018-05-22 08:00:00','2018-05-22 09:00:00',1111,'2b766d6164e28042');
 	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (4,'Gimnasia','#1: Voltereta',0.99,'2018-05-27 17:00:00','2018-05-27 18:00:00',1115,'397bd003b25e944e');
 	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (5,'Endurance','#2: Correr 2 horas',1.50,'2018-05-26 10:00:00','2018-05-26 12:00:00',1117,'72125d013d9a0fd9');

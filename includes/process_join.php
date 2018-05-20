@@ -22,7 +22,7 @@ if (isset($_SESSION['user_id'])) {
 		//TODO: si el usuario es profesor de la clase, devolver error
 		if (validate_coin($userId,$price,$pdo)) {
 		    if(join_class($dateTime,$classId,$userId,$price,$pdo)){
-		    	echo 'inscrito!';
+		    	header("Location: /cal/mycal.php?joined_class"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 		    }
 		}
 	} else { 

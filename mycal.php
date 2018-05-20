@@ -16,6 +16,11 @@ if (isset($_SESSION['username'])) {
 	//Avisos:
 	if (isset($_GET["created_class"])) {
 		$result = str_replace('##avisos##', '<script>alert("¡Clase correctamente creada!")</script>', $result);
+	} else if (isset($_GET["joined_class"])) {
+		$result = str_replace('##avisos##', '<script>alert("¡Inscrito correctamente!")</script>', $result);
+	} else if (isset($_GET["transfered_diploma"])) {
+		$result = str_replace("##avisos##", "<script>alert('¡Diploma entregado! Su nuevo secreto es: ".$_GET['transfered_diploma']."')</script>", $result);
+		//Observación: en el caso de transfered_diploma, la variable GET podría utilizarse para alterar el mensaje o mostrar mensajes ajenos en nombre de la página
 	} else {
 		$result = str_replace('##avisos##', '', $result);
 	}

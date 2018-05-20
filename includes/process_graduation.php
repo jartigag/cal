@@ -11,8 +11,9 @@ if (isset($_SESSION['user_id'])) { //TODO: controlar que sea el profesor
 		$classId = $_POST['class_id'];
 		$propietario_dest = $_POST['user_id']; //TODO: debería sanear esta variable GET?
 		$dateTime = date('Y-m-d H:i:s');
-	    if(transfer_diploma($dateTime,$classId,$propietario_dest,$pdo)){
-	    	echo '   - diploma entregado!';
+		$newDiploma = transfer_diploma($dateTime,$classId,$propietario_dest,$pdo);
+	    if ($newDiploma!==false) {
+	    	header("Location: /cal/mycal.php?transfered_diploma=".$newDiploma); // IMPORTANTE: se ha usado /cal/ como parte de la url
 	    }
 	} else { 
 		// No se ha enviado la variable GET correcta

@@ -218,8 +218,7 @@ function transfer_diploma($dateTime,$classId,$propietario_dest,$pdo) {
         // Ejecutar la query preparada
         if ($insert_stmt->execute()) {
             // Imprimir el nuevo secreto del diploma ya entregado
-            print(json_encode($newDiploma));
-            return true;
+            return json_encode($newDiploma);
         } else {
             echo 'error en INSERT INTO diploma entregado';
             return false;
