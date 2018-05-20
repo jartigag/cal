@@ -1,6 +1,6 @@
 <?php
 function validate_signup($username, $email, $tlmcoin, $pdo) {
-    //TODO: comprobar que funciona
+    //TODO: no entra en funcionamiento
     $prep_stmt = "SELECT id FROM users WHERE email = :e LIMIT 1";
     $stmt = $pdo->prepare($prep_stmt);
 
@@ -105,7 +105,7 @@ function create_class($course, $lesson, $price, $datetimeStart, $datetimeEnd, $p
                 $insertD_stmt->bindParam(':i', $classId);
                 // Ejecutar la query preparada
                 if ($insertD_stmt->execute()) {
-                    if (create_event($dateTime,$classId,$userId,$teacher,$pdo)) {
+                    if (create_event($dateTime,$classId,$course,$userId,$teacher,$pdo)) {
                         return true;
                     }
                 } else {
@@ -140,11 +140,11 @@ function join_class($dateTime,$classId,$userId,$price,$pdo) {
     $teacherCoinSecret = $teachCoin[1];
     if (transfer_coin($studentCoin,$teacherCoin,$studentCoinSecret,$price)) {
         // 2. Crear NUEVO DIPLOMA:
-        if ($stmt = $pdo->prepare('SELECT diploma_oid, diploma_secret FROM classes WHERE id=:c')) {
+        if ($stmt = $pdo->prepare('SELECT course,diploma_oid, diploma_secret FROM classes WHERE id=:c')) {
             $stmt->bindParam(':c', $classId);
             // Ejecutar la query preparada
             if ($stmt->execute()) {
-                list($genDiplomaOid,$genDiplomaSecret) = $stmt->fetch(PDO::FETCH_NUM);
+                list($course,$genDiplomaOid,$genDiplomaSecret) = $stmt->fetch(PDO::FETCH_NUM);
             } else {
                 die('error en SELECT el oid y secret del nuevo diploma');
             }
@@ -161,7 +161,7 @@ function join_class($dateTime,$classId,$userId,$price,$pdo) {
             // Ejecutar la query preparada
             if ($insert_stmt->execute()) {
                 $teacher = 0;
-                if (create_event($dateTime,$classId,$userId,$teacher,$pdo)){
+                if (create_event($dateTime,$classId,$course,$userId,$teacher,$pdo)){
                     return true;
                 }
             } else {
@@ -174,11 +174,12 @@ function join_class($dateTime,$classId,$userId,$price,$pdo) {
     }
 }
 
-function create_event($dateTime,$classId,$userId,$teacher,$pdo) {
+function create_event($dateTime,$classId,$course,$userId,$teacher,$pdo) {
     // Insertar el evento actual en la base de datos
-    if ($insert_stmt = $pdo->prepare("INSERT INTO events (date_time, class_id, user_id, teacher) VALUES (:d, :c, :u, :t)")) {
+    if ($insert_stmt = $pdo->prepare("INSERT INTO events (date_time, class_id, course, user_id, teacher) VALUES (:d, :c, :o, :u, :t)")) {
         $insert_stmt->bindParam(':d', $dateTime);
         $insert_stmt->bindParam(':c', $classId);
+        $insert_stmt->bindParam(':o', $course);
         $insert_stmt->bindParam(':u', $userId);
         $insert_stmt->bindParam(':t', $teacher);
         // Ejecutar la query preparada

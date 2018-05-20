@@ -12,8 +12,7 @@ if(isset($_POST['user'], $_POST['hashed_password'])) {
 		header("Location: /cal/mycal.php"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 	} else {
 		// Login incorrecto
-		echo 'login inválido';
-		//TODO: página de error
+		header("Location: /cal/login.php?error=true"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 	}
 } else { 
 	// No se han enviado las variables POST correctas

@@ -19,6 +19,6 @@ if (isset($_SESSION['user_id'])) { //TODO: controlar que sea el profesor
 		echo "petición inválida";
 	}
 } else {
-	header("Location: /cal/login.html"); // IMPORTANTE: se ha usado /cal/ como parte de la url
+	header("Location: /cal/login.php"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 }
 ?>

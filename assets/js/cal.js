@@ -1,5 +1,5 @@
-/*TODO:
-estudiar documentación!! https://fullcalendar.io/docs
+/*
+DOCUMENTACIÓN: https://fullcalendar.io/docs
 
 EJEMPLOS:
 [x] click en evento:
@@ -8,28 +8,24 @@ EJEMPLOS:
 
 [ ] añadir eventos externos:
 	https://fullcalendar.io/releases/fullcalendar/3.9.0/demos/external-dragging.html
-	(https://fullcalendar.io/docs/editable)
+	(https://fullcalendar.io/docs/event-dragging-resizing)
 
 */
 
 $(document).ready(function() {
 
-	/* initialize the external events
-		-----------------------------------------------------------------*/
-
 	$('#external-events .fc-event').each(function() {
 
-	  // store data so the calendar knows to render an event upon drop
+	  // almacena data para renderizar el evento cuando se arrastre
 	  $(this).data('event', {
-		title: $.trim($(this).text()), // use the element's text as the event title
-		stick: true // maintain when user navigates (see docs on the renderEvent method)
+		title: $.trim($(this).text()), // event title = element title
 	  });
 
-	  // make the event draggable using jQuery UI
+	  // hace el evento draggable con jQuery UI
 	  $(this).draggable({
 		zIndex: 999,
-		revert: true,      // will cause the event to go back to its
-		revertDuration: 0  //  original position after the drag
+		revert: true,
+		revertDuration: 0
 	  });
 
 	});    
@@ -50,33 +46,40 @@ $(document).ready(function() {
 		},
 		editable: true,
 		droppable: true,
-		eventDrop: function(event, delta, revertFunc) {
-
-			//var date = event.start.getMonth()+1 + "/" + event.start.getDate() + "/" + event.start.getFullYear();
-			//alert(date);
-			//TODO: actualizar evento
-			alert(event.title + " se va a mover a " + event.start.format());
-			if (!confirm("Confirma o cancela este cambio:")) {
-			  revertFunc();
+		eventDrop: function(event, revertFunc) {
+			var start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
+			var end = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss"); //TODO: falla event.end
+			if (!confirm('La clase\n"'+event.title+'"\nse va a mover a \n'+start)) {
+				revertFunc();
 			}
 			$.ajax({
-				url: './post_event.php',
-				data: ({
-					className: event.className,
-					delta: event.dayDelta,
-					newDate: event.date,
-					newTitle: event.title
-				}),
+				url: './update_event.php',
+				//data: 'title='+ event.title +'&datetime_start='+ start +'&id='+ event.id,
+				data: 'title='+ event.title +'&datetime_start='+ start +'&datetime_end='+ end +'&id='+ event.id,
 				type: "POST",
-				success: function (data) {
-					alert('se ha llamado a success()!\nTODO: programar post_event.php');
-					//$('#calendar').empty();
-					//loadCalendar(); //TODO: cargar calendario
+				success: function(data) {
+					//TODO: recargar calendario
 				},
-				error: function (xhr, status, error) {
-					alert("fail");
+				error: function() {
+					alert("error al actualizar la clase");
+				}
+			});
+		},
+		//TODO eventResize:
+		eventResize: function(event) {
+			var start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
+			var end = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss"); //TODO: falla event.end
+			$.ajax({
+				url: './update_event.php',
+				data: 'title='+ event.title+'&datetime_start='+ start +'&datetime_end='+ end +'&id='+ event.id ,
+				type: "POST",
+				success: function(json) {
+					//TODO: recargar calendario
+				},
+				error: function() {
+					alert("error al actualizar la clase");
 				}
 			});
 		}
-	})
+	});
 });

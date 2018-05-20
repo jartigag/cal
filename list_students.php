@@ -1,6 +1,7 @@
 <?php
 include 'includes/db_connect.php';
-//TODO: USAR PARA LOS NÚMEROS: $i_userid = intval($i_userid);
+//FIXME: NO SE MUESTRA MÁS DE UN ALUMNO EN LA TABLA
+//TODO: usar para los números: $i_userid = intval($i_userid);
 
 session_start();
 
@@ -8,10 +9,10 @@ function print_tabla($classId,$result,$pdo) {
 
 	$row = file_get_contents("assets/students_row.html");	//$row es una fila en html
 	$rows = ""; 											//en $rows se concatenará cada fila generada
-	//TODO: obtener ##lesson##, ##course##
+
 	if (!isset($_SESSION['username'])) {
 		$result = str_replace("##username##", '¡No te has identificado!', $result);
-		$result = str_replace('<a class="dropdown-item" href="logout.php">Salir</a>', '<a class="dropdown-item" href="login.html">Indentificarse</a><a class="dropdown-item" href="signup.html">Registrarse</a>', $result);
+		$result = str_replace('<a class="dropdown-item" href="logout.php">Salir</a>', '<a class="dropdown-item" href="login.php">Indentificarse</a><a class="dropdown-item" href="signup.html">Registrarse</a>', $result);
 	} else {
 		$result = str_replace("##username##", $_SESSION['username'], $result);
 	}
@@ -52,15 +53,23 @@ function print_tabla($classId,$result,$pdo) {
 	print($result);
 }
 
-if (isset($_SESSION['user_id'])) { //TODO: controlar que sea el profesor
-	if (isset($_GET['class_id'])) { //TODO: devolver error si la clase no existe
+if (isset($_SESSION['user_id'])) {
+	$userId=$_SESSION['user_id'];
+/*WIP: controlar que sea el profesor
+	$stmt=$pdo->query("SELECT teacher FROM events WHERE user_id=".$userId." AND class_id=".$classId."limit 1");
+	if ($stmt===false) {
+		die("error en la query SELECT teacher");
+	}
+	if ($stmt===1) { // user_id es el profesor
+		print('es el profesor');
+	}*/
+	if (isset($_GET['class_id'])) {
+	//TODO: devolver error si la clase no existe
 		$classId = $_GET['class_id'];
 		$navbar = file_get_contents("assets/navbar.html");
-		$navbar = str_replace( //TODO: Poner el nav-link de la página actual activo
-			'<li class="nav-item">
-					<a class="nav-link" href="list_classes.php">Ver clases</a>',
-		    '<li class="nav-item active">
-					<a class="nav-link" href="list_classes.php">Ver clases</a>', $navbar);
+		$navbar = str_replace( // Poner el nav-link de la página actual activo
+			'<li class="nav-item"><a class="nav-link" href="list_classes.php">Ver clases</a></li>',
+		    '<li class="nav-item active"><a class="nav-link" href="list_classes.php">Ver clases</a></li>', $navbar);
 		$template_table = file_get_contents("assets/students_table.html");	//$template_table es una tabla en hml
 		$result = str_replace("##navbar##", $navbar, $template_table);
 

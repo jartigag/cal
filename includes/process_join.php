@@ -30,6 +30,6 @@ if (isset($_SESSION['user_id'])) {
 		echo "petición inválida. falta la variable GET 'class_id'";
 	}
 } else {
-	header("Location: /cal/login.html"); // IMPORTANTE: se ha usado /cal/ como parte de la url
+	header("Location: /cal/login.php"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 }
 ?>

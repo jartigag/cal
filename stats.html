@@ -7,10 +7,10 @@
     <meta name="author" content="">
     <title>Estadísticas</title>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/index.css" rel="stylesheet">
-    <script src='fullcalendar/lib/jquery.min.js'></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-  </head>
+    <link href="assets/css/stats.css" rel="stylesheet">
+    <link rel='stylesheet' type='text/css' href='assets/css/tui-chart.css'/>
+
+</head>
   <body>
     <header>
       ##navbar##
@@ -20,16 +20,24 @@
 
       
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
-       
-          <div class="carousel-inner">
-            <div class="carousel-item active estad">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="carousel-caption text-left container">
+            <h1><a name="up" href="#"></a>Estadísticas</h1>
+            <p>En esta sección conocerá de primera mano cual de las clases que ofrecemos es la mas popular.</p>
+            <p>Este gráfico se actualiza constantemente en funcion de los alumnos inscritos en cada clase.</p>
+            <p>¡Danos a conocer y pelea por que tu clase favorita sea tambien la más popular!</p>
             
-                <div class="carousel-caption text-left container textestad">
-                  <h1><a name="up" href="#"></a>Estadísticas</h1>
-                  <p>En esta sección conocerá de primera mano los datos más relevantes sobre el gimnasio:</p>
-                  <p>las clases más populares, progreso del alumnado, asistencia a las clases, etc...</p>
-                </div>
-              </div>
+          </div>
+        </div>
+     
+
+
+            <hr class="featurette-divider">
+            <div class="container">
+            <div class="pie" id="chart-area"></div></div>
+            <hr class="featurette-divider">
+           
            
           </div>
         
@@ -44,4 +52,15 @@
         <p class="float-right"><a href="#tlmGYM">Volver arriba</a></p>
       </footer>
     </main>
+
+    <script src='fullcalendar/lib/jquery.min.js'></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/tui-code-snippet.js"></script>
+    <script src="assets/js/raphael.js"></script>
+    <script src="assets/js/tui-chart.js"></script>
+    <script src="stats.js"></script>
+
+
+    
+</body>
 </html>
