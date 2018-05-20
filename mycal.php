@@ -13,6 +13,12 @@ if (isset($_SESSION['username'])) {
 	} else {
 		$result = str_replace("##username##", $_SESSION['username'], $result);
 	}
+	//Avisos:
+	if (isset($_GET["created_class"])) {
+		$result = str_replace('##avisos##', '<script>alert("¡Clase correctamente creada!")</script>', $result);
+	} else {
+		$result = str_replace('##avisos##', '', $result);
+	}
 	print($result);
 } else {
 	header("Location: /cal/login.php"); // IMPORTANTE: se ha usado /cal/ como parte de la url
