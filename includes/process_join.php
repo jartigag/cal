@@ -7,7 +7,7 @@ include 'functions_vobj.php';
 session_start();
 if (isset($_SESSION['user_id'])) {
 	if (isset($_GET['class_id'])) {
-		$classId = $_GET['class_id']; //TODO: debería sanear esta variable GET?
+		$classId = $_GET['class_id'];
 		$dateTime = date('Y-m-d H:i:s');
 		$userId = $_SESSION['user_id'];
 		if ($stmt = $pdo->prepare('SELECT price FROM classes WHERE id= :i')) {
@@ -19,10 +19,13 @@ if (isset($_SESSION['user_id'])) {
 	 			die('error al obtener el precio de la clase');
 	 		}
 		}
-		//TODO: si el usuario es profesor de la clase, devolver error
+		//WIP: devolver errores
 		if (validate_coin($userId,$price,$pdo)) {
-		    if(join_class($dateTime,$classId,$userId,$price,$pdo)){
+			$res = join_class($dateTime,$classId,$userId,$price,$pdo);
+		    if ($res===true) {
 		    	header("Location: /cal/mycal.php?joined_class"); // IMPORTANTE: se ha usado /cal/ como parte de la url
+		    } else {
+		    	header("Location: /cal/list_classes.php?error=".$res); // IMPORTANTE: se ha usado /cal/ como parte de la url
 		    }
 		}
 	} else { 

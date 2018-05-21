@@ -20,7 +20,7 @@ function transfer_coin($srcid,$dstid,$auth,$value) {
 	return $response;
 }
 
-function parse_coin($userId,$pdo) { //TODO: reescribir para no tener que pasar $pdo
+function parse_coin($userId,$pdo) {
 	if ($stmt = $pdo->prepare('SELECT tlmcoin FROM users WHERE id= :i')) {
  		$stmt->bindParam(':i', $userId);
  		// Ejecutar la query preparada

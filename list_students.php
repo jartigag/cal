@@ -1,6 +1,5 @@
 <?php
 include 'includes/db_connect.php';
-//FIXME: NO SE MUESTRA MÁS DE UN ALUMNO EN LA TABLA
 
 session_start();
 
@@ -27,20 +26,22 @@ function print_tabla($classId,$result,$teacher,$pdo) {
 		if ($stmt===false) {
 			die("petición inválida");
 		}
-		while($student=$stmt->fetch(PDO::FETCH_ASSOC)) {
+		$student=$stmt->fetch(PDO::FETCH_ASSOC);
+		while($student) {
 			$result_row = str_replace("#user_id#", $student['user_id'], $row);
 			$result_row = str_replace("#date_joined#", $student['date_time'], $result_row);
-
 			// reemplazar #username#
-			$stmt=$pdo->query("SELECT username FROM users WHERE id=".$student['user_id']);
-			if ($stmt===false) {
+			$st=$pdo->query("SELECT username FROM users WHERE id=".$student['user_id']);
+			if ($st===false) {
 				die("petición inválida");
 			}
-			while($user=$stmt->fetch(PDO::FETCH_ASSOC)) {
+			while($user=$st->fetch(PDO::FETCH_ASSOC)) {
 				$result_row = str_replace("#username#", $user['username'], $result_row);
 			}
 
 			$rows = $rows.$result_row;
+
+			$student=$stmt->fetch(PDO::FETCH_ASSOC);
 		}
 	} else { //si el usuario no es el profesor de esta clase:
 		$rows = '<tr><td colspan=3>Sólo el profesor de esta clase tiene permiso para acceder a esta información</td></tr>';

@@ -32,6 +32,13 @@ function print_tabla($result,$pdo) {
 		$class=$stmt->fetch(PDO::FETCH_ASSOC);
 	}
 	$result = str_replace('##filas##', $rows, $result);
+	//Avisos:
+	if (isset($_GET["error"])) {
+		$result = str_replace("##avisos##", "<script>alert('Error en la inscripción: ".$_GET['error']."')</script>", $result);
+		//Observación - problema de seguridad: esta variable GET podría utilizarse para alterar el mensaje o mostrar mensajes ajenos en nombre de la página
+	} else {
+		$result = str_replace('##avisos##', '', $result);
+	}
 	print($result);
 }
 
