@@ -1,6 +1,6 @@
 <?php
 die("reset desactivado"); //comentar esta línea para activar esta función reset
-include 'db_connect.php';
+//include 'db_connect.php';
 try {
 	$query = "drop table users; drop table events; drop table classes; drop table login_attempts; drop table diplomas;
 
@@ -55,19 +55,19 @@ try {
 	INSERT INTO events(id,date_time,class_id,course,user_id,teacher) VALUES (10,now(),5,'Endurance',2,0);
 	INSERT INTO events(id,date_time,class_id,course,user_id,teacher) VALUES (11,now(),5,'Endurance',3,0);
 
-	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (1,'Halterofilia','#1: Levantar 5 kg',0.99,'2018-05-24 08:00:00','2018-05-24 09:00:00',1107,'e8ce051cb0bbac41');
-	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (2,'Endurance','#1: Correr 1 hora',4.07,'2018-05-25 10:00:00','2018-05-25 11:00:00',1108,'4c2cad2dc25de8a9');
-	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (3,'Senderismo','#1: Andar 1 hora',0.99,'2018-05-22 08:00:00','2018-05-22 09:00:00',1111,'2b766d6164e28042');
-	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (4,'Gimnasia','#1: Voltereta',0.99,'2018-05-27 17:00:00','2018-05-27 18:00:00',1115,'397bd003b25e944e');
-	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (5,'Endurance','#2: Correr 2 horas',1.50,'2018-05-26 10:00:00','2018-05-26 12:00:00',1117,'72125d013d9a0fd9');
+	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (1,'Halterofilia','#1: Levantar 5 kg',0.99,'2018-05-24 08:00:00','2018-05-24 09:00:00',1737,'5867bba3b86f55a0');
+	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (2,'Endurance','#1: Correr 1 hora',4.07,'2018-05-25 10:00:00','2018-05-25 11:00:00',1738,'7d71195a3a391c3e');
+	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (3,'Senderismo','#1: Andar 1 hora',0.99,'2018-05-22 08:00:00','2018-05-22 09:00:00',1739,'50373d5281d55546');
+	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (4,'Gimnasia','#1: Voltereta',0.99,'2018-05-27 17:00:00','2018-05-27 18:00:00',1740,'9ff258eb6429785d');
+	INSERT INTO classes(id,course,lesson,price,datetime_start,datetime_end,diploma_oid,diploma_secret) VALUES (5,'Endurance','#2: Correr 2 horas',1.50,'2018-05-26 10:00:00','2018-05-26 12:00:00',1741,'889a8777ebd5cdc0');
 
-	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (1,1112,'d0e83fc904cc4d0b',0,1,1);
-	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (2,1113,'deb1332500e2139b',0,4,1);
-	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (3,1114,'7ed78188b69a8570',0,3,1);
-	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (4,1116,'bb0fb62a5db7cfb3',0,2,2);
-	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (5,1118,'1a6e4b6fd1efa10c',0,2,5);
-	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (6,1119,'1a2ca8e5fd96bf58',0,3,5);
-	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,date_time,user_id,class_id) VALUES (7,1112,'b9644b552c5b769d',1,now(),1,1);
+	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (1,1742,'47ec840563234959',0,1,1);
+	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (2,1744,'9eab2f79661081a4',0,4,1);
+	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (3,1747,'2b8a7cccc3038260',0,3,1);
+	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (4,1748,'245e50402504c2f5',0,2,2);
+	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (5,1746,'34623a82f8553224',0,2,5);
+	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,user_id,class_id) VALUES (6,1745,'5227dc35471d0fb8',0,3,5);
+	INSERT INTO diplomas(id,diploma_oid,diploma_secret,entregado,date_time,user_id,class_id) VALUES (7,1742,'ae09fb070a2710a4',1,now(),1,1);
 	 ";
 
 	$stmt = $pdo->prepare($query);

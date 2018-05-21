@@ -25,24 +25,4 @@ function login($username, $hashed_password, $pdo) {
 	 }
 }
 
-//TODOn: usar checkbrute() en process_login
-function checkbrute($user_id, $pdo) {
-	// Timestamp actual
-	$now = time();
-	// Intentos de login en las últimas dos horas
-	$valid_attempts = $now - (2 * 60 * 60);
- 
-	if ($stmt = $pdo->prepare("SELECT time FROM login_attempts WHERE user_id = :i AND time > '$valid_attempts'")) { 
-		$stmt->bindParam(':i', $user_id);
-		$stmt->execute();
-		$num_rows = $stmt->fetchColumn();
-		// Si hay más de 5 logins inválidos:
-		if($num_rows > 5) {
-			 return true;
-		} else {
-			 return false;
-		}
-	 }
-}
-
 ?>

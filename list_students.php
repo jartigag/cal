@@ -9,6 +9,7 @@ function print_tabla($classId,$result,$teacher,$pdo) {
 	$rows = ""; 											//en $rows se concatenará cada fila generada
 
 	$result = str_replace("##username##", $_SESSION['username'], $result);
+	$result = str_replace("mycal.php", 'mycal.php?user_id='.$_SESSION['user_id'], $result);
 
 	// reemplazar #lesson# y #course#
 	$stmt=$pdo->query("SELECT lesson,course FROM classes WHERE id=".$classId);
@@ -65,7 +66,9 @@ if (isset($_SESSION['user_id'])&&isset($_GET['class_id'])) {
 			'<li class="nav-item"><a class="nav-link" href="list_classes.php">Ver clases</a></li>',
 		    '<li class="nav-item active"><a class="nav-link" href="list_classes.php">Ver clases</a></li>', $navbar);
 		$template_table = file_get_contents("assets/students_table.html");	//$template_table es una tabla en hml
-		$result = str_replace("##navbar##", $navbar, $template_table);
+		$navbar_res = str_replace('list_diplomas.php',
+		    'list_diplomas.php?user_id='.$_SESSION['user_id'], $navbar);
+		$result = str_replace("##navbar##", $navbar_res, $template_table);
 
 		print_tabla($classId,$result,$teacher,$pdo);
 

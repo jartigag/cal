@@ -23,7 +23,7 @@ if (isset($_SESSION['user_id'])) {
 		if (validate_coin($userId,$price,$pdo)) {
 			$res = join_class($dateTime,$classId,$userId,$price,$pdo);
 		    if ($res===true) {
-		    	header("Location: /cal/mycal.php?joined_class"); // IMPORTANTE: se ha usado /cal/ como parte de la url
+		    	header("Location: /cal/cal.php?joined_class"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 		    } else {
 		    	header("Location: /cal/list_classes.php?error=".$res); // IMPORTANTE: se ha usado /cal/ como parte de la url
 		    }

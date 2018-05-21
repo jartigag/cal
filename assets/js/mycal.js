@@ -1,12 +1,12 @@
 /*
-DOCUMENTACIÓN: https://fullcalendar.io/docs
+DOCUMENTACIÃ“N: https://fullcalendar.io/docs
 
 EJEMPLOS:
 [x] click en evento:
 	https://fullcalendar.io/docs/eventClick-demo
 	(https://fullcalendar.io/docs/eventClick)
 
-[ ] modificar eventos:
+[x] modificar eventos:
 	https://fullcalendar.io/releases/fullcalendar/3.9.0/demos/external-dragging.html
 	(https://fullcalendar.io/docs/event-dragging-resizing)
 	(https://fullcalendar.io/docs/eventDrop)
@@ -33,36 +33,18 @@ $(document).ready(function() {
 		},
 		editable: true,
 		droppable: true,
-		eventDrop: function(event, revertFunc) {
+		eventDrop: function(event, delta, revertFunc) {
 			var start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
+			var end = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
 			if (!confirm('La clase\n"'+event.title+'"\nse va a mover a \n'+start)) {
-				revertFunc(); //TODOc: reverFunc no está definida
+				revertFunc();
 			}
 			$.ajax({
 				url: './events_fullcalendar/update_event.php',
-				data: 'title='+ event.title +'&datetime_start='+ start +'&id='+ event.id,
+				data: 'datetime_start='+ start +'&datetime_end='+end+'&id='+ event.id,
 				type: "POST",
 				success: function(data) {
-					//TODOc: recargar calendario
-				},
-				error: function() {
-					alert("error al actualizar la clase");
-				}
-			});
-		},
-		//TODOc eventResize:
-		eventResize: function(event, revertFunc) {
-			var start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
-			var end = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss"); //TODOc: falla event.end
-			if (!confirm('Se va a cambiar el tiempo que dura la clase\n"'+event.title+'"')) {
-				revertFunc(); //TODOc: reverFunc no está definida
-			}
-			$.ajax({
-				url: './events_fullcalendar/update_event.php',
-				data: 'title='+ event.title+'&datetime_start='+ start +'&datetime_end='+ end +'&id='+ event.id ,
-				type: "POST",
-				success: function(json) {
-					//TODOc: recargar calendario
+					alert('Clase movida. Recarga la pÃ¡gina para ver los cambios.');
 				},
 				error: function() {
 					alert("error al actualizar la clase");

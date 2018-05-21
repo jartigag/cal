@@ -7,11 +7,16 @@ function print_tabla($result,$pdo) {
 	$row = file_get_contents("assets/classes_row.html");	//$row es una fila en html
 	$rows = ""; 											//en $rows se concatenará cada fila generada
 
-	if (!isset($_SESSION['username'])) {
-		$result = str_replace("##username##", '¡No te has identificado!', $result);
-		$result = str_replace('<a class="dropdown-item" href="logout.php">Salir</a>', '<a class="dropdown-item" href="login.php">Indentificarse</a><a class="dropdown-item" href="signup.html">Registrarse</a>', $result);
-	} else {
+	if (isset($_SESSION['username'])&&isset($_SESSION['user_id'])) {
+		$result = str_replace('list_diplomas.php',
+		    'list_diplomas.php?user_id='.$_SESSION['user_id'], $result);
+		$result = str_replace("mycal.php", 'mycal.php?user_id='.$_SESSION['user_id'], $result);
 		$result = str_replace("##username##", $_SESSION['username'], $result);
+	} else {
+		$result = str_replace("##username##", '¡No te has identificado!', $result);
+		$result = str_replace('list_diplomas.php',
+		    'login.php', $result);
+		$result = str_replace('<a class="dropdown-item" href="logout.php">Salir</a>', '<a class="dropdown-item" href="login.php">Indentificarse</a><a class="dropdown-item" href="signup.html">Registrarse</a>', $result);
 	}
 
 	$stmt=$pdo->query("SELECT * FROM classes");

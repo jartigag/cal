@@ -7,7 +7,7 @@ if ($pdo==NULL) {
 	die("error al conectarse a la base de datos");
 }
 
-$consulta = "SELECT course, count(*) FROM events group by course";
+$consulta = "SELECT course, count(*) FROM events WHERE teacher=0 group by course";
 $resultado = $pdo->query($consulta);
 if (!$resultado) {
 	die('No se pudo consultar:' . mysql_error());

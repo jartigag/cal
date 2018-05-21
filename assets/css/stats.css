@@ -8,6 +8,7 @@
 /* Carousel base class */
 .carousel {
   margin-bottom: 4rem;
+  margin-top:72px;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -105,7 +106,9 @@
 }
 
 .pie{
-margin:0 auto;
+margin-left:30;
+margin top:60;
+margin-right:30;
 
 }
 

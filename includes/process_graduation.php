@@ -19,7 +19,7 @@ if (isset($_SESSION['user_id'])) {
 			if ($teacher) { //si el usuario es el profesor de esta clase:
 				$newDiploma = transfer_diploma($dateTime,$classId,$propietario_dest,$pdo);
 				if ($newDiploma!==false) {
-					header("Location: /cal/mycal.php?transfered_diploma=".$newDiploma); // IMPORTANTE: se ha usado /cal/ como parte de la url
+					header("Location: /cal/cal.php?transfered_diploma=".$newDiploma); // IMPORTANTE: se ha usado /cal/ como parte de la url
 				}
 			} else { //si el usuario no es el profesor de esta clase:
 				echo 'petición inválida: no eres profesor de esta clase';

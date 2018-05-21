@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Diplomas</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/tables.css" rel="stylesheet">
+    <script src='fullcalendar/lib/jquery.min.js'></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    ##navbar##
+    <main>
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="carousel-caption text-left container">
+                        <h1 class="display-2">Diplomas</h1>
+                        <p>En esta sección encontrara los diplomas que le han sido entregados.</p>
+                        <p>¿Has sido uno de los mejores de tu clase?</p>
+                        <p>A continuación se muestra la lista con tus diplomas. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container par">
+            <h3>Listado de diplomas: </h3>
+            <hr class="featurette-divider">
+            <div class="centered">
+                <input type="button" class="cerrarDiploma" value="Cerrar diploma" hidden>
+                <table id="tablaDiplomas" border="1">
+                    <thead>
+                        <th>class_id</th>
+                        <th>diploma_oid</th>
+                        <th>diploma_secret</th>
+                        <th>fecha de entrega</th>
+                    </thead>
+                    <tbody>
+                        ##filas##
+                    </tbody>
+                </table>
+            </div>
+    </main>
+    <script src="assets/js/diploma.js"></script>
+</body>
+
+</html>

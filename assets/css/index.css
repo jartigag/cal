@@ -8,6 +8,7 @@
 /* Carousel base class */
 .carousel {
   margin-bottom: 4rem;
+  margin-top:72px;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -89,25 +90,26 @@
 .halt{
   position: absolute;
   top:20px;
+  left:60px;
 
 }
 
 .gym{
   position: absolute;
   top:100px;
-  left:20px;
+  left:80px;
   
 }
 
 .run{
   position: absolute;
-  left: 30px;
+  left: 90px;
   top:100px;
 }
 
 .send{
   position: absolute;
-  left: 20px;
+  left: 60px;
   top:70px;
 }
 
@@ -123,3 +125,7 @@
   height: 20em;
 }
 
+.text{
+  margin left: 10em;
+  font-size: 1em;
+}

@@ -16,7 +16,7 @@ if(isset($_POST['course'], $_POST['lesson'], $_POST['price'], $_POST['datetimeSt
 	$datetimeEnd = $_POST['datetimeEnd'];
 	if (validate_coin($userId,$genPrice,$pdo)) {
 		if (create_class($course,$lesson,$price,$datetimeStart,$datetimeEnd,$pdo)){
-			header("Location: /cal/mycal.php?created_class"); // IMPORTANTE: se ha usado /cal/ como parte de la url
+			header("Location: /cal/cal.php?created_class"); // IMPORTANTE: se ha usado /cal/ como parte de la url
 		}	
 	}
 } else { 

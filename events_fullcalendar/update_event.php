@@ -1,6 +1,6 @@
 <?php
 include '../includes/db_connect.php';
-session_start(); //TODOc: controlar quién modifica las clases
+session_start();
 
 $id = $_POST['id'];
 $datetime_start = $_POST['datetime_start'];

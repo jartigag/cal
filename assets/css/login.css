@@ -40,3 +40,12 @@ body {
 .form-signin input[type="email"] {
   margin-bottom: 10px;
 }
+
+
+.centered{
+  width: 70em;
+  margin: auto;
+  position: relative;
+  top:5em;
+
+}

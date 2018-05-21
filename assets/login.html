@@ -11,10 +11,17 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="assets/css/login.css" rel="stylesheet">
+      <link href="assets/css/navbar.css" rel="stylesheet">
+
+<!-- Themes -->
+<link href="assets/css/theme-light.css" rel="stylesheet">
+<link href="assets/css/theme-dark.css" rel="stylesheet"> <!--tiene que ir el último para ganar la prioridad-->
     <script type="text/JavaScript" src="assets/js/forms.js"></script>
 </head>
 
+
 <body class="text-left">
+    <div class="centered">
      <form method="POST" action="includes/process_login.php" class="form-signin" >
       <p><span class="h3 mb-3 font-weight-normal">Iniciar sesión</span></p>
       <p><span class="h3 mb-3 msjError">##mensajeError##</span></p>
@@ -29,5 +36,6 @@
       <button class="btn btn-lg btn-primary btn-block" onclick="return sendPasswordSecurely(this.form, this.form.inputPassword);">Identificarse</button>
       <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
     </form>
+    </div>
 </body>
 </html>

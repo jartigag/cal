@@ -62,16 +62,15 @@ $.ajax({
 		var theme = {
 			series: {
 				colors: [
-					'#83b14e', '#458a3f', '#295ba0', '#2a4175', '#289399',
-					'#289399', '#617178', '#8a9a9a', '#516f7d', '#dddddd'
+				'#f90000',  '#4d9a22', '#ad6302', '#af33ff', 
 				]
 			}
 		};
 
-		// For apply theme
 
-		// tui.chart.registerTheme('myTheme', theme);
-		// options.theme = 'myTheme';
+
+		 tui.chart.registerTheme('myTheme', theme);
+		 options.theme = 'myTheme';
 
 		tui.chart.pieChart(container, data, options);
 

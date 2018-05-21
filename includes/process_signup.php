@@ -14,13 +14,12 @@ if (isset($_POST['username'], $_POST['email'], $_POST['tlmcoin'], $_POST['hashed
 
     $res = validate_signup($username,$email,$tlmcoin,$pdo);
     if ($res===true) {
-        //TODOn: validar tlmcoin
         create_user($username,$email,$tlmcoin,$hashed_password,$pdo);
         if(login($username,$hashed_password,$pdo)) {
-            header("Location: /cal/mycal.php"); // IMPORTANTE: se ha usado /cal/ como parte de la url
+            header("Location: /cal/cal.php"); // IMPORTANTE: se ha usado /cal/ como parte de la url
         }
     } else { 
         header("Location: /cal/signup.php?error=".$res); // IMPORTANTE: se ha usado /cal/ como parte de la url
-	}
+    }
 }
 ?>

@@ -11,15 +11,15 @@ if (isset($_SESSION['username'])&&isset($_SESSION['user_id'])) {
 		}
 
 		$navbar = file_get_contents("assets/navbar.html");
-		$navbar = str_replace( //TODO: Poner el nav-link de la página actual activo
-		'<li class="nav-item"><a class="nav-link" href="mycal.php">Horario</a></li>',
-		'<li class="nav-item active"><a class="nav-link" href="mycal.php">Horario</a></li>', $navbar);
-		$result = str_replace("##navbar##", $navbar, $template);
+		$navbar_res = str_replace('list_diplomas.php',
+		    'list_diplomas.php?user_id='.$_SESSION['user_id'], $navbar);
+		$result = str_replace("##navbar##", $navbar_res, $template);
 		if (!isset($_SESSION['username'])) {
 			$result = str_replace("##username##", '¡No te has identificado!', $result);
 			$result = str_replace('<a class="dropdown-item" href="logout.php">Salir</a>', '<a class="dropdown-item" href="login.php">Indentificarse</a><a class="dropdown-item" href="signup.html">Registrarse</a>', $result);
 		} else {
 			$result = str_replace("##username##", $_SESSION['username'], $result);
+			$result = str_replace("mycal.php", 'mycal.php?user_id='.$_SESSION['user_id'], $result);
 		}
 		//Avisos:
 		if (isset($_GET["created_class"])) {

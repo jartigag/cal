@@ -33,3 +33,17 @@ td, th {
   border: 1px solid #ccc; 
   text-align: center; 
 }
+
+.centered{
+  width:70em;
+  margin: auto;
+  position: relative;
+  top:1em;
+
+}
+
+.par{
+  margin: auto;
+  position: relative;
+  top:4em;
+}
